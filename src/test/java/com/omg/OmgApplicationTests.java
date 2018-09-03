@@ -4,10 +4,9 @@ import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.entity.*;
-import com.omg.util.TestUtil;
+import com.omg.util.ExcelUtils;
 import com.omg.util.XmlUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -62,7 +61,7 @@ public class OmgApplicationTests {
 			FileInputStream input = new FileInputStream(file);
 			MultipartFile multipartFile  = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
 			Workbook wb = getWorkbook(multipartFile);
-			List<User> users = TestUtil.importExcel(User.class, wb);
+			List<User> users = ExcelUtils.importExcel(User.class, wb);
 			System.out.println(users);
 		} catch (IOException e) {
 			e.printStackTrace();

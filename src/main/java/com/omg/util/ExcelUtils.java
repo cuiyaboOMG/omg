@@ -16,7 +16,7 @@ import java.util.List;
 /**
  * Created by gp-0096 on 2018/8/24.
  */
-public class TestUtil {
+public class ExcelUtils {
 
     public static <T> List<T> importExcel(Class<T> clazz,Workbook workbook) throws IllegalAccessException, InstantiationException {
         List<T> list = new ArrayList<>();
