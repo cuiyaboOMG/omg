@@ -1,5 +1,6 @@
 package com.omg;
 
+import com.omg.jms.producer.MyProducer;
 import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
@@ -12,6 +13,7 @@ import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -30,6 +32,8 @@ import java.util.Map;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class OmgApplicationTests {
+	@Autowired
+	private MyProducer myProducer;
 
 	@Test
 	public void contextLoads() {
@@ -131,5 +135,10 @@ public class OmgApplicationTests {
 				"</XML_DATA>";
 		String trim = new BASE64Encoder().encodeBuffer(key.getBytes()).trim();
 		System.out.println(trim);
+	}
+
+	@Test
+	public void getMessage(){
+		myProducer.send();
 	}
 }
