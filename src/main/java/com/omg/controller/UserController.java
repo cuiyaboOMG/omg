@@ -2,7 +2,9 @@ package com.omg.controller;
 
 import com.omg.annotation.LogInterface;
 import com.omg.dto.UserDto;
+import com.omg.entity.Log;
 import com.omg.entity.User;
+import com.omg.mapper.LogMapper;
 import com.omg.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UserController {
-    private static Logger log = LoggerFactory.getLogger(UserController.class);
+    private static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private UserService userService;
@@ -22,7 +24,7 @@ public class UserController {
     @LogInterface(value = "12")
     @GetMapping("/select/user/{name}")
     public User getUser(@PathVariable String name){
-        log.info("用户名：{}",name);
+        logger.info("用户名：{}",name);
         return userService.findByName(name);
     }
 

@@ -1,10 +1,14 @@
 package com.omg.service.impl;
 
+import com.omg.entity.Log;
 import com.omg.entity.User;
+import com.omg.mapper.LogMapper;
 import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * @Auther: cui

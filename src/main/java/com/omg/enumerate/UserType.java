@@ -1,13 +1,12 @@
 package com.omg.enumerate;
 
-import org.apache.commons.lang.StringUtils;
-
 /**
  * Created by gp-0096 on 2018/8/31.
  */
 public enum UserType {
     student(1,"学生"),teacher(2,"老师");
 
+    /**value*/
     private Integer value;
 
     private String type;
@@ -20,7 +19,7 @@ public enum UserType {
     public static UserType getByValue(Integer value){
         UserType[] values = UserType.values();
         for(UserType item:values){
-            if(item.getValue()==value){
+            if(item.getValue().equals(value)){
                 return  item;
             }
         }
