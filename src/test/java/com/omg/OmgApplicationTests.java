@@ -34,6 +34,8 @@ import java.util.Map;
 public class OmgApplicationTests {
 	@Autowired
 	private MyProducer myProducer;
+	@Autowired
+	private MinStackTest minStackTest;
 
 	@Test
 	public void contextLoads() {
@@ -140,5 +142,16 @@ public class OmgApplicationTests {
 	@Test
 	public void getMessage(){
 		myProducer.send();
+	}
+
+	@Test
+	public void getMin(){
+		minStackTest.push(3);
+		minStackTest.push(3);
+		minStackTest.push(1);
+		minStackTest.push(2);
+		minStackTest.pop();
+		minStackTest.pop();
+		System.out.println("最小值："+minStackTest.getMin());
 	}
 }
