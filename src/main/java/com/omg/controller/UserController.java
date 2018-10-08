@@ -15,9 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class UserController {
-    private static Logger logger = LoggerFactory.getLogger(UserController.class);
-
+public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
