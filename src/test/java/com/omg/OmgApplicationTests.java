@@ -11,6 +11,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +25,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -153,5 +151,32 @@ public class OmgApplicationTests {
 		minStackTest.pop();
 		minStackTest.pop();
 		System.out.println("最小值："+minStackTest.getMin());
+	}
+
+	@Test
+	public void math(){
+		int i = 1;
+		double d = 1.2d;
+		float f = 1.32344465f;
+		Integer a = 1;
+		Integer b = 1;
+		System.out.println(f);
+		System.out.println(3*0.1==0.3);
+		System.out.println(d==f);
+		System.out.println(a==b);
+		System.out.println(i+0.1);
+		System.out.println(d+0.1);
+	}
+	@Test
+	public void listTest(){
+		ArrayList<String> objects = Lists.newArrayList();
+		objects.add("a");
+		objects.add("b");
+		Iterator<String> iterator = objects.iterator();
+		while (iterator.hasNext()){
+			System.out.println(iterator.next());
+		}
+		String s = UUID.randomUUID().toString();
+		System.out.println(s);
 	}
 }
