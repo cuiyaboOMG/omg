@@ -2,12 +2,8 @@ package com.omg.controller;
 
 import com.omg.annotation.LogInterface;
 import com.omg.dto.UserDto;
-import com.omg.entity.Log;
 import com.omg.entity.User;
-import com.omg.mapper.LogMapper;
 import com.omg.service.UserService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

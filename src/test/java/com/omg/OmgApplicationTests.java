@@ -5,6 +5,9 @@ import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.entity.*;
+import com.omg.mytest.PayAssemble;
+import com.omg.mytest.PaymentService;
+import com.omg.mytest.WxPayService;
 import com.omg.util.ExcelUtils;
 import com.omg.util.XmlUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -178,5 +181,11 @@ public class OmgApplicationTests {
 		}
 		String s = UUID.randomUUID().toString();
 		System.out.println(s);
+	}
+
+	@Test
+	public void payTest(){
+		PayAssemble payAssemble = new PayAssemble(new WxPayService());
+		System.out.println(payAssemble.payStart());
 	}
 }
