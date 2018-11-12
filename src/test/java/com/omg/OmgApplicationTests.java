@@ -29,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -187,5 +188,16 @@ public class OmgApplicationTests {
 	public void payTest(){
 		PayAssemble payAssemble = new PayAssemble(new WxPayService());
 		System.out.println(payAssemble.payStart());
+	}
+
+	@Test
+	public void asyn(){
+		String [] str = {"a","b","c"};
+		List<CompletableFuture> futures = new ArrayList<>();
+		for (String s:str
+			 ) {
+			futures.add(CompletableFuture.supplyAsync(()->str).thenApply(e ->e+"wqq"));
+		}
+		System.out.println(futures.size());
 	}
 }
