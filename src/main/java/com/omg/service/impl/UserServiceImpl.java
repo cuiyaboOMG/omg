@@ -4,20 +4,10 @@ import com.omg.entity.User;
 import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
 import com.omg.util.RedisService;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
-import org.patchca.color.SingleColorFactory;
-import org.patchca.filter.predefined.*;
-import org.patchca.font.RandomFontFactory;
-import org.patchca.service.Captcha;
-import org.patchca.service.ConfigurableCaptchaService;
-import org.patchca.word.AdaptiveRandomWordFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.imageio.ImageIO;
-import java.awt.*;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,12 +29,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByName(String name) {
-        return userMapper.findByName(name);
+        User value = redisService.getValue(name, User.class);
+        if(value!=null){
+            return value;
+        }
+        User byName = userMapper.findByName(name);
+        redisService.set(name,byName);
+        return byName;
     }
 
     @Override
     public Map<String, String> verifyCode() throws IOException {
-        ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
+       /* ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
         // 验证码字符组成
         AdaptiveRandomWordFactory wordFactory = new AdaptiveRandomWordFactory();
         wordFactory.setCharacters("1234567890");
@@ -83,10 +79,10 @@ public class UserServiceImpl implements UserService {
         ImageIO.write(captcha.getImage(), "png", output);
         String base64 = "data:image/png;base64," + Base64.encodeBase64String(output.toByteArray());
         String verifyCodeId = UUID.randomUUID().toString();
-        redisService.set(verifyCodeId,captcha.getChallenge());
+        redisService.set(verifyCodeId,captcha.getChallenge());*/
         Map<String, String> result = new HashMap<String, String>();
-        result.put("verifyCodeId", verifyCodeId);
-        result.put("img", base64);
+       /* result.put("verifyCodeId", verifyCodeId);
+        result.put("img", base64);*/
         return result;
     }
 

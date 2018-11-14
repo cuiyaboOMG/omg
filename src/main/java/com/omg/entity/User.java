@@ -2,10 +2,14 @@ package com.omg.entity;
 
 import com.omg.annotation.FieldValue;
 
+import java.io.Serializable;
+
 /**
  * Created by gp-0096 on 2018/8/24.
  */
-public class User {
+public class User implements Serializable{
+
+    private static final long serialVersionUID = -3249759973071839523L;
 
     @FieldValue("姓名")
     private String name;
