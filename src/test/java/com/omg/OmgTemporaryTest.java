@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
 * @Author:         cyb
@@ -40,6 +41,15 @@ public class OmgTemporaryTest {
 
     @Test
     public void completableFuture(){
+
+    }
+
+    @Test
+    public void map(){
+        int a =1;
+        double b = 1d;
+        float c =1f;
+        System.out.println(10%100);
 
     }
 }
