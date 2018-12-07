@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.Serializable;
 import java.lang.reflect.Field;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -50,7 +51,7 @@ public class BaseService {
         RepeatBean majorBean = new RepeatBean();
         majorBean.setColumn(major);
         majorBean.setValue(id);
-        Map<String,Object> record = commonMapper.getExistsCount(name,map,majorBean);
+        List<Object> record = commonMapper.getExistsCount(name,map,majorBean);
         return record!=null&&record.size()>0;
     }
 
