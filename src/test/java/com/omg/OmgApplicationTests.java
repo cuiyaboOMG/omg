@@ -199,5 +199,6 @@ public class OmgApplicationTests {
 			futures.add(CompletableFuture.supplyAsync(()->str).thenApply(e ->e+"wqq"));
 		}
 		System.out.println(futures.size());
+		//test qwe
 	}
 }
