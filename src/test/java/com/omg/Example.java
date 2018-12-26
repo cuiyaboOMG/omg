@@ -36,6 +36,7 @@ public class Example {
         @Override
         public void run() {
             try {
+                System.out.println(i+"号准备");
                 begin.await();
                 System.out.println(i+"号起跑");
                 Thread.sleep(1000);

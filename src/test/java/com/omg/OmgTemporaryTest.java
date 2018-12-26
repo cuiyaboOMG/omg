@@ -59,7 +59,7 @@ public class OmgTemporaryTest {
         for(int i = 0;i<str.length;i++){
             for(int j = i+1;j<str.length;j++){
                 if(str[i]>str[j]){
-                    str[j] ^=str[i];
+                    str[j] ^=str[i];//0010 ^ 1000  1010
                     str[i] ^=str[j];
                     str[j] ^= str[i];
                 }
@@ -77,5 +77,10 @@ public class OmgTemporaryTest {
 
         }
         System.out.println(sb.substring(0,sb.length()-2));
+    }
+
+    @Test
+    public void quictest(){
+        Integer [] query = {2,1,4,3,5};
     }
 }

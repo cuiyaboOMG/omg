@@ -1,5 +1,6 @@
 package com.omg;
 
+import com.alibaba.fastjson.JSONObject;
 import com.omg.jms.producer.MyProducer;
 import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
@@ -115,6 +116,8 @@ public class OmgApplicationTests {
 		policynumber.add("2222222222222");
 		policyList.setPolicynumber(policynumber);
 		request.setPolicyList(policyList);
+		Object o = JSONObject.toJSON(request);
+		System.out.println(o.toString());
 		String s = XmlUtil.convertToXml(request, "UTF-8");
 		System.out.println(s);
 	}
@@ -167,7 +170,7 @@ public class OmgApplicationTests {
 		System.out.println(f);
 		System.out.println(3*0.1==0.3);
 		System.out.println(d==f);
-		System.out.println(a==b);
+		System.out.println(a==1);
 		System.out.println(i+0.1);
 		System.out.println(d+0.1);
 	}

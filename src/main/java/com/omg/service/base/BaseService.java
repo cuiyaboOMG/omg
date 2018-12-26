@@ -2,6 +2,7 @@ package com.omg.service.base;
 
 import com.omg.domain.RepeatBean;
 import com.omg.mapper.CommonMapper;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,7 +53,7 @@ public class BaseService {
         majorBean.setColumn(major);
         majorBean.setValue(id);
         List<Object> record = commonMapper.getExistsCount(name,map,majorBean);
-        return record!=null&&record.size()>0;
+        return CollectionUtils.isNotEmpty(record);
     }
 
     /**
