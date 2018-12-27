@@ -7,8 +7,8 @@ import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.entity.*;
 import com.omg.mytest.PayAssemble;
-import com.omg.mytest.PaymentService;
 import com.omg.mytest.WxPayService;
+import com.omg.util.DateUtils;
 import com.omg.util.ExcelUtils;
 import com.omg.util.XmlUtil;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -29,6 +29,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 
@@ -108,8 +111,10 @@ public class OmgApplicationTests {
 
 	@Test
 	public void xml1(){
+		BigDecimal bigDecimal = new BigDecimal(10.00);
 		Request request = new Request();
-		request.setTransactionId("2w2w2w2");
+		request.setCode(1);
+		request.setTransactionId(bigDecimal.multiply(new BigDecimal(1)).toPlainString());
 		PolicyList policyList = new PolicyList();
 		List<String> policynumber = new ArrayList<>();
 		policynumber.add("1111111111111");
@@ -120,6 +125,9 @@ public class OmgApplicationTests {
 		System.out.println(o.toString());
 		String s = XmlUtil.convertToXml(request, "UTF-8");
 		System.out.println(s);
+
+		System.out.println(bigDecimal.setScale(2));
+		System.out.println(bigDecimal.multiply(new BigDecimal(0)).toPlainString());
 	}
 
 	@Test
@@ -203,5 +211,20 @@ public class OmgApplicationTests {
 		}
 		System.out.println(futures.size());
 		//test qwe
+	}
+
+	@Test
+	public void dataTest(){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date date = new Date();
+		Date date1 = new Date();
+		try {
+			date = sdf.parse("2018-01-01");
+			date1 = sdf.parse("2018-01-01");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		int i = DateUtils.DayDifference(date, date1) + 1;
+		System.out.println(String.valueOf(i));
 	}
 }

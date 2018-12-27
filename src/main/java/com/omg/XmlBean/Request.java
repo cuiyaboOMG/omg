@@ -54,6 +54,7 @@ public class Request {
 	@XmlElement(name="bankName")
 	private String bankName;
 
+	private int code;
 
 	/**
 	 * 获取  transactionId
@@ -226,5 +227,13 @@ public class Request {
 
 	public void setPolicyList(PolicyList policyList) {
 		this.policyList = policyList;
+	}
+
+	public int getCode() {
+		return code;
+	}
+
+	public void setCode(int code) {
+		this.code = code;
 	}
 }
