@@ -118,7 +118,10 @@ public class UserServiceImpl implements UserService {
     public void importFile(MultipartFile file) {
         try {
             ImportResult importResult = ExcelUtils.importExcel(User.class, userMapper, file);
-            List<User> data = importResult.getData();
+            if(importResult.getStatus()){
+                List<User> data = importResult.getData();
+                userMapper.insertList(data);
+            }
         } catch (InstantiationException e) {
             e.printStackTrace();
         } catch (IllegalAccessException e) {

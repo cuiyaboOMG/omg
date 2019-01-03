@@ -5,4 +5,11 @@
 	<select id="findByName" resultType="com.omg.entity.User">
 	SELECT * FROM user where name =#{username}
 	</select>
+
+	<insert id="insertList" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO user (name,age) VALUES
+		<foreach collection="list" item="item" separator=",">
+			(#{item.name}, #{item.age})
+		</foreach>
+	</insert>
 </mapper>

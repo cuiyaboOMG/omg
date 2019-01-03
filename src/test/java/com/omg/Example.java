@@ -1,19 +1,20 @@
 package com.omg;
 
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by gp-0096 on 2018/10/31.
  */
 public class Example {
 
-    private static Integer count = 0;
+    private static volatile AtomicInteger count = new AtomicInteger(0);
     private static CountDownLatch begin = new CountDownLatch(1);
-    private static CountDownLatch countDownLatch = new CountDownLatch(5);
+    private static CountDownLatch countDownLatch = new CountDownLatch(1000);
 
     public static void main(String[] args) throws InterruptedException {
 
-        for(int i=0;i<5;i++){
+        for(int i=0;i<1000;i++){
             Thread thread = new Thread(new Task(i));
             thread.start();
         }
@@ -42,7 +43,7 @@ public class Example {
                 Thread.sleep(1000);
                 System.out.println(i+"号到达终点");
                 countDownLatch.countDown();
-                count++;
+                count.getAndIncrement();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
