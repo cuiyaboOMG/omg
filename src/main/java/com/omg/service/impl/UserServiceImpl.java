@@ -3,13 +3,17 @@ package com.omg.service.impl;
 import com.omg.entity.User;
 import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
+import com.omg.util.ExcelUtils;
 import com.omg.util.RedisService;
+import com.omg.util.excel.ImportResult;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -108,5 +112,19 @@ public class UserServiceImpl implements UserService {
         map.put("name",userName);
         map.put("token",token);
         return map;
+    }
+
+    @Override
+    public void importFile(MultipartFile file) {
+        try {
+            ImportResult importResult = ExcelUtils.importExcel(User.class, userMapper, file);
+            List<User> data = importResult.getData();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        }
     }
 }

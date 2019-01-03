@@ -15,6 +15,11 @@ public class Log {
     private Integer type;
 
     /**
+     * 内容
+     */
+    private String content;
+
+    /**
      * 获取主键id
      *
      * @return id - 主键id
@@ -48,5 +53,13 @@ public class Log {
      */
     public void setType(Integer type) {
         this.type = type;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }

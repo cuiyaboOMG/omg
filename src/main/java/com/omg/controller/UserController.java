@@ -4,18 +4,18 @@ import com.omg.annotation.LogInterface;
 import com.omg.dto.UserDto;
 import com.omg.entity.User;
 import com.omg.service.UserService;
+import com.omg.util.ExcelUtils;
+import com.omg.util.excel.ImportResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @LogInterface(value = "12")
+    @LogInterface(value = "查询%s的信息")
     @GetMapping("/select/user/{name}")
     public User getUser(@PathVariable String name){
         logger.info("用户名：{}",name);
@@ -30,5 +30,10 @@ public class UserController extends BaseController{
     @PostMapping(value = "/insert/user")
     public String insertUser(UserDto userDto){
         return "success";
+    }
+
+    @PostMapping(value = "/excelImport")
+    public void importFile(@RequestParam MultipartFile file){
+        userService.importFile(file);
     }
 }

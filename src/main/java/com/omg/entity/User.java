@@ -1,6 +1,7 @@
 package com.omg.entity;
 
 import com.omg.annotation.FieldValue;
+import com.omg.annotation.Repetition;
 
 import java.io.Serializable;
 
@@ -12,8 +13,11 @@ public class User implements Serializable{
     private static final long serialVersionUID = -3249759973071839523L;
 
     @FieldValue("姓名")
+    @Repetition(message = "姓名已存在")
     private String name;
 
+    @FieldValue("年龄")
+    @Repetition
     private Integer age;
 
     private String password;

@@ -1,12 +1,15 @@
 package com.omg.aspect;
 
 import com.omg.annotation.LogInterface;
+import com.omg.entity.Log;
+import com.omg.mapper.LogMapper;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
@@ -15,6 +18,9 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LogInterfaceAspect {
+    @Autowired
+    private LogMapper logMapper;
+
     @Pointcut("@annotation(com.omg.annotation.LogInterface)")
     public void saveInterfaceLog() {}
 
@@ -22,11 +28,14 @@ public class LogInterfaceAspect {
     @Around(value = "saveInterfaceLog()&& @annotation(logInterface)")
     public Object aroundMethod(ProceedingJoinPoint pjp, LogInterface logInterface)throws Throwable{
         Object[] args = pjp.getArgs();
+        StringBuffer sb = new StringBuffer();
         for (Object param:args){
-            System.out.println("param:"+param);
+            sb.append(param);
         }
-        System.out.println("开始记录日志");
-        System.out.println("logInterface:"+logInterface.value());
+        Log log = new Log();
+        log.setType(2);
+        log.setContent(String.format(logInterface.value(),sb ));
+        logMapper.insert(log);
         Object proceed = pjp.proceed();
         System.out.println(proceed);
         return proceed;

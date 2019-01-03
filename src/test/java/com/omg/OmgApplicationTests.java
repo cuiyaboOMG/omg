@@ -72,32 +72,12 @@ public class OmgApplicationTests {
 		try {
 			FileInputStream input = new FileInputStream(file);
 			MultipartFile multipartFile  = new MockMultipartFile("file", file.getName(), "text/plain", IOUtils.toByteArray(input));
-			Workbook wb = getWorkbook(multipartFile);
+			/*Workbook wb = getWorkbook(multipartFile);
 			List<User> users = ExcelUtils.importExcel(User.class, wb);
-			System.out.println(users);
+			System.out.println(users);*/
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-
-	private Workbook getWorkbook(MultipartFile file) {
-		String filePath = file.getOriginalFilename();
-		String fileType = filePath.substring(filePath.lastIndexOf(".") + 1, filePath.length());
-		InputStream stream;
-		Workbook wb = null;
-		try {
-			stream = file.getInputStream();
-			if (fileType.equals("xls")) {
-				wb = new HSSFWorkbook(stream);
-			} else if (fileType.equals("xlsx")) {
-				wb = new XSSFWorkbook(stream);
-			} else {
-				throw new RuntimeException("文件类型错误");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return wb;
 	}
 
 	@Test
@@ -226,5 +206,10 @@ public class OmgApplicationTests {
 		}
 		int i = DateUtils.DayDifference(date, date1) + 1;
 		System.out.println(String.valueOf(i));
+	}
+
+	@Test
+	public void synchronization(){
+
 	}
 }
