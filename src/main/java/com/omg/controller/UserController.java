@@ -18,7 +18,7 @@ public class UserController extends BaseController{
     @LogInterface(value = "查询%s的信息")
     @GetMapping("/select/user/{name}")
     public User getUser(@PathVariable String name){
-        logger.info("用户名：{}",name);
+        logger.debug("用户名：{}",name);
         return userService.findByName(name);
     }
 
