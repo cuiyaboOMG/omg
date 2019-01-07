@@ -6,11 +6,23 @@ import com.omg.service.UserService;
 import com.omg.util.ExcelUtils;
 import com.omg.util.RedisService;
 import com.omg.util.excel.ImportResult;
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
+import org.patchca.color.SingleColorFactory;
+import org.patchca.filter.predefined.*;
+import org.patchca.font.RandomFontFactory;
+import org.patchca.service.Captcha;
+import org.patchca.service.ConfigurableCaptchaService;
+import org.patchca.word.AdaptiveRandomWordFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +36,8 @@ import java.util.UUID;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
 
     @Autowired
     private UserMapper userMapper;
@@ -44,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Map<String, String> verifyCode() throws IOException {
-       /* ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
+       ConfigurableCaptchaService cs = new ConfigurableCaptchaService();
         // 验证码字符组成
         AdaptiveRandomWordFactory wordFactory = new AdaptiveRandomWordFactory();
         wordFactory.setCharacters("1234567890");
@@ -83,10 +97,11 @@ public class UserServiceImpl implements UserService {
         ImageIO.write(captcha.getImage(), "png", output);
         String base64 = "data:image/png;base64," + Base64.encodeBase64String(output.toByteArray());
         String verifyCodeId = UUID.randomUUID().toString();
-        redisService.set(verifyCodeId,captcha.getChallenge());*/
+        redisService.set(verifyCodeId,captcha.getChallenge());
         Map<String, String> result = new HashMap<String, String>();
-       /* result.put("verifyCodeId", verifyCodeId);
-        result.put("img", base64);*/
+        result.put("verifyCodeId", verifyCodeId);
+        result.put("img", base64);
+        logger.debug("验证码",result.get("verifyCodeId"));
         return result;
     }
 

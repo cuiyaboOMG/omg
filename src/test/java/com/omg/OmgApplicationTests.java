@@ -6,11 +6,14 @@ import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.entity.*;
+import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
 import com.omg.mytest.WxPayService;
 import com.omg.util.DateUtils;
 import com.omg.util.ExcelUtils;
+import com.omg.util.RedisService;
 import com.omg.util.XmlUtil;
+import io.lettuce.core.RedisClient;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
@@ -20,15 +23,16 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.JedisPool;
 import sun.misc.BASE64Encoder;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -42,6 +46,11 @@ public class OmgApplicationTests {
 	private MyProducer myProducer;
 	@Autowired
 	private MinStackTest minStackTest;
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+	@Autowired
+    private UserMapper userMapper;
 
 	@Test
 	public void contextLoads() {
@@ -209,7 +218,63 @@ public class OmgApplicationTests {
 	}
 
 	@Test
-	public void synchronization(){
-
+	public void LRU(){
+		//LinkedHashMap实现LRU算法
+		LinkedHashMap<String,String> map = new LinkedHashMap<>(16,0.75F,true);
+		map.put("one","one");
+		map.put("two","two");
+		map.put("third","third");
+		map.put("four","four");
+		System.out.println(map);
+		map.get("one");
+		map.get("third");
+		System.out.println(map);
 	}
+
+	@Test
+	public void insertUser(){
+		List<User> list = Lists.newArrayList();
+		String[] firstName = {"张","赵","钱","孙","李","周","吴","杨","夏","崔","庄","徐","鲁","袁","陈"};
+		for(int a=0;a<1000;a++){
+			Random random=new Random();
+			int i = random.nextInt(firstName.length - 1);
+			User user = new User();
+			user.setAge(random.nextInt(50));
+			user.setName(firstName[i]+getChinese()+getChinese());
+			user.setPassword("e10adc3949ba59abbe56e057f20f883e");
+			list.add(user);
+		}
+        List<User> list1 =list.subList(0,500);
+        userMapper.insertList(list1);
+        userMapper.insertList(list.subList(500,1000));
+		System.out.println();
+	}
+
+	public static String getChinese() {
+		String str = null;
+		int highPos, lowPos;
+		Random random = new Random();
+		highPos = (176 + Math.abs(random.nextInt(71)));//区码，0xA0打头，从第16区开始，即0xB0=11*16=176,16~55一级汉字，56~87二级汉字
+		random=new Random();
+		lowPos = 161 + Math.abs(random.nextInt(94));//位码，0xA0打头，范围第1~94列
+
+		byte[] bArr = new byte[2];
+		bArr[0] = (new Integer(highPos)).byteValue();
+		bArr[1] = (new Integer(lowPos)).byteValue();
+		try {
+			str = new String(bArr, "GB2312");	//区位码组合成汉字
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		return str;
+	}
+
+	@Test
+    public void jedis(){
+        RedisAtomicLong test = new RedisAtomicLong("test", redisTemplate.getConnectionFactory());
+        long andIncrement = test.incrementAndGet();
+        System.out.println(andIncrement);
+        redisTemplate.opsForValue().set("test",2);
+        System.out.println(redisTemplate.opsForValue().get("test"));
+    }
 }

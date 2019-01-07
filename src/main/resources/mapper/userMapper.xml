@@ -7,9 +7,9 @@
 	</select>
 
 	<insert id="insertList" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO user (name,age) VALUES
+		INSERT INTO user (name,age,password) VALUES
 		<foreach collection="list" item="item" separator=",">
-			(#{item.name}, #{item.age})
+			(#{item.name}, #{item.age}, #{item.password})
 		</foreach>
 	</insert>
 </mapper>
