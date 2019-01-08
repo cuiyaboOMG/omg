@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
             return map;
         }
         String token = UUID.randomUUID().toString();
-        map.put("status","failure");
+        map.put("status","success");
         map.put("name",userName);
         map.put("token",token);
         return map;
