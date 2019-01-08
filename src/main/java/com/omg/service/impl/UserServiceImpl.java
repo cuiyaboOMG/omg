@@ -52,7 +52,7 @@ public class UserServiceImpl implements UserService {
             return value;
         }
         User byName = userMapper.findByName(name);
-        redisService.set(name,byName);
+        redisService.set(name,byName, 5l);
         return byName;
     }
 
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
         Map<String, String> result = new HashMap<String, String>();
         result.put("verifyCodeId", verifyCodeId);
         result.put("img", base64);
-        logger.debug("验证码",result.get("verifyCodeId"));
+        logger.debug("验证码:{}",captcha.getChallenge());
         return result;
     }
 

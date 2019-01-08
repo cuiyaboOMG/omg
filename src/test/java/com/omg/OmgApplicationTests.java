@@ -23,6 +23,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.mock.web.MockMultipartFile;
@@ -38,6 +39,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -276,5 +278,17 @@ public class OmgApplicationTests {
         System.out.println(andIncrement);
         redisTemplate.opsForValue().set("test",2);
         System.out.println(redisTemplate.opsForValue().get("test"));
+    }
+
+    @Test
+    public void childName(){
+        Random random = new Random();
+        String[] secondName = {"月","雪","明","秀","潞","芸","敏","兰","佳"};
+        String[] thirdName = {"怡","晓","灵","秀","潞","歌","敏","兰","佳"};
+        int i = random.nextInt(secondName.length - 1);
+        Random random1 = new Random();
+        int j = random1.nextInt(thirdName.length - 1);
+        System.out.println("李"+secondName[i]+secondName[j]);
+        System.out.println(TimeUnit.MINUTES.toSeconds(300));
     }
 }

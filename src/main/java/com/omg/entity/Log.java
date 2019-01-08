@@ -20,6 +20,11 @@ public class Log {
     private String content;
 
     /**
+     * ip
+     */
+    private String ip;
+
+    /**
      * 获取主键id
      *
      * @return id - 主键id
@@ -61,5 +66,13 @@ public class Log {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
     }
 }
