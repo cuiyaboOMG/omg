@@ -198,9 +198,9 @@ public class OmgApplicationTests {
 		List<CompletableFuture> futures = new ArrayList<>();
 		for (String s:str
 			 ) {
-			futures.add(CompletableFuture.supplyAsync(()->str).thenApply(e ->e+"wqq"));
+			futures.add(CompletableFuture.supplyAsync(()->str).thenApply(e ->s+"wqq"));
 		}
-		System.out.println(futures.size());
+		System.out.println(futures.get(0));
 		//test qwe
 	}
 

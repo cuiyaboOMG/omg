@@ -1,5 +1,6 @@
 package com.omg.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.omg.entity.User;
 import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
@@ -17,6 +18,7 @@ import org.patchca.word.AdaptiveRandomWordFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -24,6 +26,7 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,6 +47,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private JmsMessagingTemplate jmsMessagingTemplate;
 
     @Override
     public User findByName(String name) {
@@ -126,6 +132,7 @@ public class UserServiceImpl implements UserService {
         map.put("status","success");
         map.put("name",userName);
         map.put("token",token);
+        redisService.set(token,user);
         return map;
     }
 
@@ -144,5 +151,12 @@ public class UserServiceImpl implements UserService {
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public String insertUser(User userDto) {
+        //消息队列
+        jmsMessagingTemplate.convertAndSend("user", JSONObject.toJSONString(userDto));
+        return "success";
     }
 }

@@ -37,7 +37,7 @@ public class ExcelUtils {
         return validate;
     }
 
-    public static <T,E> ImportResult importExcel(Class<T> clazz,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException {
+    public static <T> ImportResult importExcel(Class<T> clazz,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException {
         Workbook workbook = getWorkbook(multipartFile);
         List<T> data = importExcel(clazz, workbook);
         ImportResult importResult = new ImportResult();

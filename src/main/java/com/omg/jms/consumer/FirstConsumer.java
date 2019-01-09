@@ -1,7 +1,15 @@
 package com.omg.jms.consumer;
 
+import com.alibaba.fastjson.JSONObject;
+import com.omg.entity.User;
+import com.omg.mapper.UserMapper;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.annotation.JmsListener;
 import org.springframework.stereotype.Component;
+
+import javax.jms.JMSException;
+import javax.jms.ObjectMessage;
 
 /**
  * @Auther: cui
@@ -11,8 +19,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class FirstConsumer {
 
+    @Autowired
+    private UserMapper userMapper;
+
     @JmsListener(destination = "test.queue")
     public void process(String message){
         System.out.println("第一个消费者获取消息："+message);
+    }
+
+    @JmsListener(destination = "user")
+    public void insertUser(String message) throws JMSException {
+        System.out.println("第一个消费者获取消息："+message);
+        User user = (User)JSONObject.parseObject(message,User.class);
+        userMapper.insert(user);
     }
 }

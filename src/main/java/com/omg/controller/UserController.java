@@ -28,8 +28,8 @@ public class UserController extends BaseController{
     }
 
     @PostMapping(value = "/insert/user")
-    public String insertUser(UserDto userDto){
-        return "success";
+    public String insertUser(User userDto){
+        return userService.insertUser(userDto);
     }
 
     @PostMapping(value = "/excelImport")

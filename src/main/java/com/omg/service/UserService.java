@@ -20,4 +20,6 @@ public interface UserService {
      Map<String,String> login(String userName, String password, String verifyCode, String verifyCodeId, String s, String s1);
 
     void importFile(MultipartFile file);
+
+    String insertUser(User userDto);
 }
