@@ -55,14 +55,15 @@ public class OmgApplicationTests {
     private UserMapper userMapper;
 
 	@Test
-	public void contextLoads() {
+	public void contextLoads() throws InterruptedException {
 		String a = "aaa";
 		String b = "aa" + "a";
 		System.out.println(a == b);
 		System.out.println(a.equals(b));
-		String[] str = new String[]{"a", "b", "c", "b", "a", "b"};
+            String[] str = new String[]{"a", "b", "c", "b", "a", "b","a", "b", "c", "b", "a", "b","a", "b", "c", "b", "a", "b"};
 		//按次数出现顺序排序并打印
-		HashMap<String, Integer> map = new HashMap<>(6);
+        long beginTime = System.currentTimeMillis();
+        HashMap<String, Integer> map = new HashMap<>(6);
 		for (String s : str) {
 			if (map.containsKey(s)) {
 				map.put(s, map.get(s) + 1);
@@ -72,9 +73,12 @@ public class OmgApplicationTests {
 		}
 		List<Map.Entry<String, Integer>> entries = new ArrayList<>(map.entrySet());
 		entries.sort((Map.Entry<String, Integer> t1,Map.Entry<String, Integer> t2)-> t1.getKey().compareTo(t2.getKey()));
-		for (Map.Entry<String, Integer> t : entries) {
+        long endTime = System.currentTimeMillis();
+        System.out.println((endTime-beginTime));
+        for (Map.Entry<String, Integer> t : entries) {
 			System.out.println(t.getKey());
 		}
+		//辅助栈
 	}
 
 	@Test
@@ -283,7 +287,7 @@ public class OmgApplicationTests {
     @Test
     public void childName(){
         Random random = new Random();
-        String[] secondName = {"月","雪","明","秀","潞","芸","敏","兰","佳"};
+        String[] secondName = {"月","雪","明","秀","潞","芸","敏","灵","之","兰","佳"};
         String[] thirdName = {"怡","晓","灵","秀","潞","歌","敏","兰","佳"};
         int i = random.nextInt(secondName.length - 1);
         Random random1 = new Random();

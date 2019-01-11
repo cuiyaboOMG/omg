@@ -6,6 +6,7 @@ import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
 import com.omg.util.ExcelUtils;
 import com.omg.util.RedisService;
+import com.omg.util.SpringContextHolder;
 import com.omg.util.excel.ImportResult;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.lang.StringUtils;
@@ -18,8 +19,11 @@ import org.patchca.word.AdaptiveRandomWordFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
@@ -158,5 +162,32 @@ public class UserServiceImpl implements UserService {
         //消息队列
         jmsMessagingTemplate.convertAndSend("user", JSONObject.toJSONString(userDto));
         return "success";
+    }
+
+    //事物测试 b方法报错回滚  a 不受影响
+    @Transactional(propagation = Propagation.REQUIRED)
+    public String insertUserTestTransactiona(User userDto) {
+        User user = new User();
+        user.setAge(25);
+        user.setName("芸歌");
+        userMapper.insert(user);
+        try {
+            SpringContextHolder.getBean(UserServiceImpl.class).b();
+        }catch (Exception e){
+
+        }
+        return "success";
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void b() {
+        User user = new User();
+        user.setName("波波");
+        user.setAge(25);
+        userMapper.insert(user);
+        if(1/0>0){
+            logger.error("报错");
+        }
+
     }
 }

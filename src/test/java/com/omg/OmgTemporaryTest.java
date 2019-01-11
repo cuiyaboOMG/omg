@@ -52,7 +52,7 @@ public class OmgTemporaryTest {
         System.out.println(10^2);//1010 ^ 0010 = 1000
     }
 
-    //冒泡排序
+    //冒泡排序 时间复杂度 O(n^2)
     @Test
     public void mao_pao(){
         Integer[] str = new Integer[]{8,2,1,3,6,5};
