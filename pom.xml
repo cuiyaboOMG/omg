@@ -180,11 +180,12 @@
 			<artifactId>httpcore</artifactId>
 			<version>4.2.1</version>
 		</dependency>
-		<dependency>
+		<!--用于引入传统的xml或者properties配置-->
+		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
-		</dependency>
+		</dependency>-->
 	</dependencies>
 
 	<build>
