@@ -295,4 +295,31 @@ public class OmgApplicationTests {
         System.out.println("李"+secondName[i]+secondName[j]);
         System.out.println(TimeUnit.MINUTES.toSeconds(300));
     }
+
+    @Test
+	public void childNameNew(){
+    	String secondName = "炳段祋俊怜亮拉厘俐律娜柰南泰畋亭歪炫映昱昭者祉致籽";
+    	String thirdName = "撤陈撑道灯琏撩龙卢陆录诺陶熹晓鸯晔璋";
+		Random random = new Random();
+		int i = random.nextInt(secondName.length());
+		System.out.println(i);
+		Random random1 = new Random();
+		int j = random1.nextInt(thirdName.length());
+		System.out.println("李"+secondName.charAt(i-1)+thirdName.charAt(j-1));
+	}
+
+	@Test
+	public void childNameAll(){
+		String secondName = "炳段祋俊怜亮拉厘俐律娜柰南泰畋亭歪炫映昱昭者祉致籽";
+		String thirdName = "撤陈撑道灯琏撩龙卢陆录诺陶熹晓鸯晔璋璇";
+		for(int i=0;i<secondName.length()-1;i++){
+			for(int j=0;j<thirdName.length();j++){
+				StringBuffer sb = new StringBuffer(3);
+				sb.append("李");
+				sb.append(secondName.charAt(i));
+				sb.append(thirdName.charAt(j));
+				System.out.println(sb.toString());
+			}
+		}
+	}
 }
