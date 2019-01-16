@@ -6,7 +6,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 /**
  * Created by gp-0096 on 2018/10/31.
  */
-public class Example {
+public class CountDownLatchExample {
 
     private static volatile AtomicInteger count = new AtomicInteger(0);
     private static CountDownLatch begin = new CountDownLatch(1);
