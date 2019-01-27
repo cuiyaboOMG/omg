@@ -18,6 +18,7 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -32,6 +33,7 @@ import org.springframework.web.multipart.MultipartFile;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 import sun.misc.BASE64Encoder;
+import tk.mybatis.mapper.entity.Example;
 
 import java.io.*;
 import java.math.BigDecimal;
@@ -321,5 +323,22 @@ public class OmgApplicationTests {
 				System.out.println(sb.toString());
 			}
 		}
+	}
+
+	@Test
+	public void dateTest() throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-mm");
+		Date parse = simpleDateFormat.parse("2019" + "-" + "01");
+		System.out.println(parse);
+	}
+
+	@Test
+	public void mapperTest(){
+		Example example = new Example(User.class);
+		Example.Criteria criteria = example.createCriteria();
+		criteria.andEqualTo("age",16);
+		User user =new User();
+		user.setPassword("123");
+		userMapper.updateByExampleSelective(user,example);
 	}
 }

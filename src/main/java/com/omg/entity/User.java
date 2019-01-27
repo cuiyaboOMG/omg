@@ -2,6 +2,7 @@ package com.omg.entity;
 
 import com.omg.annotation.FieldValue;
 import com.omg.annotation.Repetition;
+import com.omg.enumerate.UserType;
 
 import javax.persistence.Id;
 import java.io.Serializable;
@@ -25,6 +26,8 @@ public class User implements Serializable{
     private Integer age;
 
     private String password;
+
+    private UserType type;
 
     public Integer getId() {
         return id;
@@ -56,6 +59,14 @@ public class User implements Serializable{
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public UserType getType() {
+        return type;
+    }
+
+    public void setType(UserType type) {
+        this.type = type;
     }
 
     @Override
