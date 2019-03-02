@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -29,6 +30,8 @@ import java.util.*;
  * Created by gp-0096 on 2018/8/24.
  */
 public class ExcelUtils {
+    private static NumberFormat numberFormat = NumberFormat.getInstance();
+
     public static <T> ImportResult importExcel(Class<T> clazz,Mapper<T> mapper,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException, NoSuchFieldException, ParseException {
         Workbook workbook = getWorkbook(multipartFile);
         List<T> data = importExcel(clazz, workbook);
@@ -118,8 +121,9 @@ public class ExcelUtils {
                 Date date = cell.getDateCellValue();
                 return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
             }
-            cell.setCellType(Cell.CELL_TYPE_STRING);
-            return String.valueOf(cell.getStringCellValue());
+            //去除千位符之类的
+            numberFormat.setGroupingUsed(false);
+            return numberFormat.format(cell.getNumericCellValue());
         }
         return String.valueOf(cell.getStringCellValue());
     }
