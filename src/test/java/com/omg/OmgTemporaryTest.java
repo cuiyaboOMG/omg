@@ -1,17 +1,22 @@
 package com.omg;
 
 import com.google.common.collect.Lists;
+import com.omg.entity.User;
+import com.omg.util.CommonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 /**
 * @Author:         cyb
@@ -84,6 +89,24 @@ public class OmgTemporaryTest {
         Matcher match=pattern.matcher(s1);
         if(match.matches()){
             System.out.println(s1);
+        }else if(true){
+            System.out.println("12222");
         }
+    }
+
+    @Test
+    public void stream(){
+        ArrayList<User> objects = Lists.newArrayList();
+        User user1= new User();
+        user1.setName("家电>电视");
+        User user2= new User();
+        user2.setName("家电>电视");
+        objects.add(user1);
+        objects.add(user2);
+        String collect = objects.stream().filter(CommonUtil.distinctByKey(User::getName)).map(User::getName).collect(Collectors.joining("/"));
+        List<String> categoryNameList =objects.stream().filter(CommonUtil.distinctByKey(User::getName)).map(User::getName).collect(Collectors.toList());
+        String s = CommonUtil.formatList(categoryNameList, "/");
+        System.out.println(collect);
+        System.out.println(s);
     }
 }
