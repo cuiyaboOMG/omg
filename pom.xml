@@ -189,6 +189,11 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<optional>true</optional>
 		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.6</version>
+		</dependency>
 		<!--用于引入传统的xml或者properties配置-->
 		<!--<dependency>
 			<groupId>org.springframework.boot</groupId>
