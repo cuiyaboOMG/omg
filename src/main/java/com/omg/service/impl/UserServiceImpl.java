@@ -59,13 +59,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByName(String name) {
         User value = redisService.getValue(name, User.class);
-        value.setType(UserType.student);
         if(value!=null){
             return value;
         }
         User byName = userMapper.findByName(name);
         byName.setType(UserType.student);
-        redisService.set(name,byName, 5l);
+        redisService.set(name,byName, 5L);
         return byName;
     }
 

@@ -10,9 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
+
 @RestController
 public class UserController extends BaseController{
     @Autowired
+    @Resource
     private UserService userService;
 
     @LogInterface(value = "查询%s的信息")
