@@ -3,8 +3,6 @@ package com.omg.util;
 import com.google.common.collect.Lists;
 import com.omg.annotation.FieldValue;
 import com.omg.annotation.Repetition;
-import com.omg.entity.User;
-import com.omg.mapper.UserMapper;
 import com.omg.util.excel.ImportResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -15,13 +13,15 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.common.Mapper;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Field;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -30,14 +30,16 @@ import java.util.*;
  * Created by gp-0096 on 2018/8/24.
  */
 public class ExcelUtils {
-    public static <T> ImportResult importExcel(Class<T> clazz,Mapper<T> mapper,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException, NoSuchFieldException {
+    private static NumberFormat numberFormat = NumberFormat.getInstance();
+
+    public static <T> ImportResult importExcel(Class<T> clazz,Mapper<T> mapper,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException, NoSuchFieldException, ParseException {
         Workbook workbook = getWorkbook(multipartFile);
         List<T> data = importExcel(clazz, workbook);
         ImportResult validate = validate(clazz, data, mapper);
         return validate;
     }
 
-    public static <T> ImportResult importExcel(Class<T> clazz,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException {
+    public static <T> ImportResult importExcel(Class<T> clazz,MultipartFile multipartFile) throws InstantiationException, IllegalAccessException, ParseException {
         Workbook workbook = getWorkbook(multipartFile);
         List<T> data = importExcel(clazz, workbook);
         ImportResult importResult = new ImportResult();
@@ -65,7 +67,7 @@ public class ExcelUtils {
         return wb;
     }
 
-    public static <T> List<T> importExcel(Class<T> clazz,Workbook workbook) throws IllegalAccessException, InstantiationException {
+    public static <T> List<T> importExcel(Class<T> clazz,Workbook workbook) throws IllegalAccessException, InstantiationException, ParseException {
         List<T> list = new ArrayList<>();
         Sheet sheet1 = workbook.getSheetAt(0);
         int coloumNum=sheet1.getRow(0).getPhysicalNumberOfCells();
@@ -119,8 +121,9 @@ public class ExcelUtils {
                 Date date = cell.getDateCellValue();
                 return new SimpleDateFormat("yyyy-MM-dd hh:mm:ss").format(date);
             }
-            cell.setCellType(Cell.CELL_TYPE_STRING);
-            return String.valueOf(cell.getStringCellValue());
+            //去除千位符之类的
+            numberFormat.setGroupingUsed(false);
+            return numberFormat.format(cell.getNumericCellValue());
         }
         return String.valueOf(cell.getStringCellValue());
     }
@@ -180,7 +183,7 @@ public class ExcelUtils {
         }
     }
 
-    private static <T> void setField(T t, String contents, Field field) throws IllegalAccessException {
+    private static <T> void setField(T t, String contents, Field field) throws IllegalAccessException, ParseException {
         field.setAccessible(true);
         String type = field.getType().getSimpleName();
         if("String".equals(type)){
@@ -188,6 +191,12 @@ public class ExcelUtils {
         }
         if("int".equals(type)||"Integer".equals(type)){
             field.set(t,Integer.valueOf(contents));
+        }
+        if("Date".equals(type)){
+            field.set(t, org.apache.commons.lang3.time.DateUtils.parseDate(contents,"yyyy-MM-dd hh:mm:ss"));
+        }
+        if("BigDecimal".equals(type)){
+            field.set(t, new BigDecimal(contents));
         }
     }
 }

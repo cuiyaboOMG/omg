@@ -1,6 +1,9 @@
 package com.omg;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
+import com.omg.config.CodeMsgConfig;
 import com.omg.jms.producer.MyProducer;
 import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
@@ -37,6 +40,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.io.*;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -52,9 +57,10 @@ public class OmgApplicationTests {
 	private MinStackTest minStackTest;
     @Autowired
     private RedisTemplate redisTemplate;
-
 	@Autowired
     private UserMapper userMapper;
+	@Autowired
+	private CodeMsgConfig codeMsgConfig;
 
 	@Test
 	public void contextLoads() throws InterruptedException {
@@ -341,4 +347,36 @@ public class OmgApplicationTests {
 		user.setPassword("123");
 		userMapper.updateByExampleSelective(user,example);
 	}
+
+	@Test
+	public void setCodeMsgConfig(){
+		String msg = codeMsgConfig.getMsg("500");
+		System.out.println(msg);
+	}
+
+	@Test
+	public void enumTest(){
+		BigDecimal amount = new BigDecimal(1000);
+		BigDecimal taxRate = new BigDecimal(20);
+		BigDecimal multiply = amount.multiply(taxRate.divide(new BigDecimal(100))).divide((taxRate.divide(new BigDecimal(100)).add(new BigDecimal(1))),2, BigDecimal.ROUND_HALF_UP);
+		System.out.println(multiply);
+		BigDecimal divide = amount.multiply(taxRate.divide(new BigDecimal(100))).divide((new BigDecimal(1).subtract(taxRate.divide(new BigDecimal(100)))), 2, BigDecimal.ROUND_HALF_UP);
+		System.out.println(divide);
+		byte s1 = 127;
+		s1 = (byte)(s1+3);
+		System.out.println(s1);
+		short s = 1;
+		s+=1;
+		System.out.println(s);
+		long l = 1;
+		l+=1;
+		System.out.println(l);
+		BigDecimal ss = new BigDecimal(92.12);
+		System.out.println(ss.divide(new BigDecimal(100),4,BigDecimal.ROUND_HALF_DOWN));
+		System.out.println("test:"+ss);
+		NumberFormat numberFormat = NumberFormat.getInstance();
+		numberFormat.setGroupingUsed(false);
+		System.out.println(numberFormat.format(new BigDecimal(10000)));
+	}
+
 }
