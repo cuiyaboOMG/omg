@@ -22,4 +22,6 @@ public interface UserService {
     void importFile(MultipartFile file);
 
     String insertUser(User userDto);
+
+    void upload(MultipartFile file);
 }

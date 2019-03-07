@@ -68,4 +68,9 @@ public class UserController extends BaseController{
             e.printStackTrace();
         }
     }
+
+    @PostMapping("/upload")
+    public void uipload(@RequestParam("file") MultipartFile file){
+        userService.upload(file);
+    }
 }

@@ -5,6 +5,7 @@ import com.omg.entity.User;
 import com.omg.enumerate.UserType;
 import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
+import com.omg.util.AttachUtil;
 import com.omg.util.ExcelUtils;
 import com.omg.util.RedisService;
 import com.omg.util.SpringContextHolder;
@@ -56,6 +57,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private JmsMessagingTemplate jmsMessagingTemplate;
+
+    @Autowired
+    private AttachUtil attachUtil;
 
     @Override
     public User findByName(String name) {
@@ -167,6 +171,11 @@ public class UserServiceImpl implements UserService {
         //消息队列
         jmsMessagingTemplate.convertAndSend("user", JSONObject.toJSONString(userDto));
         return "success";
+    }
+
+    @Override
+    public void upload(MultipartFile file) {
+        AttachUtil.uploadAttach(file);
     }
 
     //事物测试 b方法报错回滚  a 不受影响
