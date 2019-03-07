@@ -379,4 +379,9 @@ public class OmgApplicationTests {
 		System.out.println(numberFormat.format(new BigDecimal(10000)));
 	}
 
+	@Test
+	public void test1(){
+		String filePath = "D:\\code\\aalib/static/official/平安车险(1)_445fba298bc04937b6027ea6cdda8d6c.xls";
+		System.out.println(filePath.substring(filePath.indexOf("official")));
+	}
 }

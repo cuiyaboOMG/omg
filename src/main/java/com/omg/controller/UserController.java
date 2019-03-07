@@ -7,8 +7,15 @@ import com.omg.service.UserService;
 import com.omg.util.ExcelUtils;
 import com.omg.util.excel.ImportResult;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 
 @RestController
 public class UserController extends BaseController{
@@ -35,5 +42,30 @@ public class UserController extends BaseController{
     @PostMapping(value = "/excelImport")
     public void importFile(@RequestParam MultipartFile file){
         userService.importFile(file);
+    }
+
+    @GetMapping(value = "/download/{id}")
+    public void downloadAttach(HttpServletResponse response,@PathVariable Integer id) throws IOException {
+//        File file = new File("D:\\upload\\official\\渠道客户_a3bef8702a6b491b873510d2f11ac260.xls");
+//        FileInputStream inputStream = new FileInputStream(file);;
+        response.setHeader("content-type", "application/octet-stream");
+        response.setContentType("application/octet-stream");
+        //res.setContentType("application/vnd.ms-excel");
+        response.setHeader("Content-Disposition", "attachment;filename=" +  java.net.URLEncoder.encode("test.xls", "UTF-8"));
+
+        try {
+            FileInputStream fis = new FileInputStream("D:\\upload\\official\\渠道客户_a3bef8702a6b491b873510d2f11ac260.xls");
+            byte[] content = new byte[fis.available()];
+            fis.read(content);
+            fis.close();
+
+            ServletOutputStream sos = response.getOutputStream();
+            sos.write(content);
+
+            sos.flush();
+            sos.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
