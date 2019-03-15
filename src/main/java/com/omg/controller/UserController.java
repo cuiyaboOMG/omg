@@ -1,6 +1,7 @@
 package com.omg.controller;
 
 import com.omg.annotation.LogInterface;
+import com.omg.domain.result.Result;
 import com.omg.dto.UserDto;
 import com.omg.entity.User;
 import com.omg.service.UserService;
@@ -24,7 +25,7 @@ public class UserController extends BaseController{
 
     @LogInterface(value = "查询%s的信息")
     @GetMapping("/select/user/{name}")
-    public User getUser(@PathVariable String name){
+    public Result<User> getUser(@PathVariable String name){
         logger.debug("用户名：{}",name);
         return userService.findByName(name);
     }

@@ -1,5 +1,6 @@
 package com.omg.service;
 
+import com.omg.domain.result.Result;
 import com.omg.entity.User;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -13,7 +14,7 @@ import java.util.Map;
  * @Description:
  */
 public interface UserService {
-     User findByName(String name);
+    Result<User> findByName(String name);
 
      Map<String,String> verifyCode() throws IOException;
 

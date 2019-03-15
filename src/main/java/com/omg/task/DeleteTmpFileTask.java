@@ -19,7 +19,6 @@ import java.util.concurrent.TimeUnit;
 @Component
 @Slf4j
 public class DeleteTmpFileTask {
-    @Value("${attach.dir}")
     private String path;
 
     public void deleteTmpFile(){

@@ -1,6 +1,8 @@
 package com.omg.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.omg.domain.result.Result;
+import com.omg.domain.result.SuccessResult;
 import com.omg.entity.User;
 import com.omg.enumerate.UserType;
 import com.omg.mapper.UserMapper;
@@ -21,7 +23,6 @@ import org.patchca.word.AdaptiveRandomWordFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.jms.core.JmsMessagingTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -32,7 +33,6 @@ import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.Serializable;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
@@ -62,15 +62,15 @@ public class UserServiceImpl implements UserService {
     private AttachUtil attachUtil;
 
     @Override
-    public User findByName(String name) {
+    public Result<User> findByName(String name) {
         User value = redisService.getValue(name, User.class);
         if(value!=null){
-            return value;
+            return new SuccessResult<>(value);
         }
         User byName = userMapper.findByName(name);
         byName.setType(UserType.student);
         redisService.set(name,byName, 5L);
-        return byName;
+        return new SuccessResult<>(byName);
     }
 
     @Override
