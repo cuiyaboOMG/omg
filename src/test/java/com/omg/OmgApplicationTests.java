@@ -1,46 +1,36 @@
 package com.omg;
 
 import com.alibaba.fastjson.JSONObject;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.Multimap;
-import com.omg.config.CodeMsgConfig;
-import com.omg.jms.producer.MyProducer;
 import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
-import com.omg.entity.*;
+import com.omg.config.CodeMsgConfig;
+import com.omg.entity.User;
+import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
 import com.omg.mytest.WxPayService;
 import com.omg.util.DateUtils;
-import com.omg.util.ExcelUtils;
-import com.omg.util.RedisService;
 import com.omg.util.XmlUtil;
-import io.lettuce.core.RedisClient;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.util.IOUtils;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.multipart.MultipartFile;
-import redis.clients.jedis.Jedis;
-import redis.clients.jedis.JedisPool;
 import sun.misc.BASE64Encoder;
 import tk.mybatis.mapper.entity.Example;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -218,17 +208,20 @@ public class OmgApplicationTests {
 
 	@Test
 	public void dataTest(){
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		Date date = new Date();
 		Date date1 = new Date();
 		try {
-			date = sdf.parse("2018-01-01");
-			date1 = sdf.parse("2018-01-01");
+			date = sdf.parse("2018-01-01 06:30:00");
+			date1 = sdf.parse("2019-05-15 01:37:46");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		int i = DateUtils.DayDifference(date, date1) + 1;
-		System.out.println(String.valueOf(i));
+
+		Date date21 = org.apache.commons.lang3.time.DateUtils.addMonths(new Date(), 2);
+		System.out.println(sdf.format(date21));
+		int i = DateUtils.DayDifference(date21, date1);
+		System.out.println(i);
 	}
 
 	@Test
@@ -383,5 +376,14 @@ public class OmgApplicationTests {
 	public void test1(){
 		String filePath = "D:\\code\\aalib/static/official/平安车险(1)_445fba298bc04937b6027ea6cdda8d6c.xls";
 		System.out.println(filePath.substring(filePath.indexOf("official")));
+
+		User user1 = User.builder().age(50).build();
+		User user2 = User.builder().age(50).build();
+		Integer a = 128;
+		Integer b =128 ;
+		System.out.println(user2.getAge()==user1.getAge());
+		System.out.println(a==b);
+		System.out.println(TimeUnit.MILLISECONDS.toMinutes(1552632606636l-System.currentTimeMillis()));
+		System.out.println(TimeUnit.MILLISECONDS.toHours(1552632606636l-1547777338717l));
 	}
 }
