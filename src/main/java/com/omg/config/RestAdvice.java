@@ -27,7 +27,7 @@ public class RestAdvice {
     @ResponseBody
     @ExceptionHandler(BaseException.class)
     public FailResult handAalibAuthException(BaseException e){
-        return new FailResult(e.getMessage());
+        return new FailResult(e.getErrorMsg(),e.getErrorCode());
     }
 
 }

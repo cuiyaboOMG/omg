@@ -9,16 +9,20 @@ import com.omg.util.ExcelUtils;
 import com.omg.util.excel.ImportResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.FileCopyUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 @RestController
+@Validated
 public class UserController extends BaseController{
     @Autowired
     private UserService userService;
@@ -36,7 +40,7 @@ public class UserController extends BaseController{
     }
 
     @PostMapping(value = "/insert/user")
-    public String insertUser(User userDto){
+    public String insertUser(@Valid User userDto, BindingResult result){
         return userService.insertUser(userDto);
     }
 

@@ -1,6 +1,7 @@
 package com.omg.jms.consumer;
 
 import com.alibaba.fastjson.JSONObject;
+import com.omg.domain.exception.BaseException;
 import com.omg.entity.User;
 import com.omg.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
@@ -31,6 +32,10 @@ public class FirstConsumer {
     public void insertUser(String message) throws JMSException {
         System.out.println("第一个消费者获取消息："+message);
         User user = (User)JSONObject.parseObject(message,User.class);
+        int count = userMapper.selectCount(user);
+        if(count>0){
+            throw new BaseException("用户已存在");
+        }
         userMapper.insert(user);
     }
 }

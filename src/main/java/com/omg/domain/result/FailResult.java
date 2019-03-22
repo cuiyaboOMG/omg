@@ -21,6 +21,12 @@ public class FailResult extends Result{
         this.setMsg(stimsErrorEnum.getErrMsg());
     }
 
+    public FailResult(String errMsg,String code) {
+        this.setStatus(false);
+        this.setMsg(errMsg);
+        this.setCode(code);
+    }
+
     public FailResult(String errMsg) {
         this.setStatus(Boolean.valueOf(false));
         this.setMsg(errMsg);

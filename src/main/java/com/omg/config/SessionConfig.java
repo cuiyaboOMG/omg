@@ -16,6 +16,7 @@ public class SessionConfig {
         return HeaderHttpSessionIdResolver.xAuthToken();
     }
 
+    //如果不用redis,不需要下面的bean配置
     @Bean
     public static ConfigureRedisAction configureRedisAction(){
         return ConfigureRedisAction.NO_OP;

@@ -295,5 +295,10 @@ public class DateUtils {
 	     // System.out.println(sdf.format(calendar2.getTime()));// last Sunday  
 	     String lastEndDate = date2shortstr(calendar2.getTime());
 	     return lastBeginDate + "," + lastEndDate;  
-	}  
+	}
+
+    public static String getDateCn(Date date,String format){
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        return formatter.format(date);
+    }
 }

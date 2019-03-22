@@ -1,9 +1,12 @@
 package com.omg.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.omg.domain.exception.BaseException;
 import com.omg.domain.result.Result;
 import com.omg.domain.result.SuccessResult;
+import com.omg.domain.vo.SessionUser;
 import com.omg.entity.User;
+import com.omg.enumerate.ErrorEnum;
 import com.omg.enumerate.UserType;
 import com.omg.mapper.UserMapper;
 import com.omg.service.UserService;
@@ -30,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.imageio.ImageIO;
+import javax.servlet.http.HttpSession;
 import java.awt.*;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -114,7 +118,7 @@ public class UserServiceImpl implements UserService {
         ImageIO.write(captcha.getImage(), "png", output);
         String base64 = "data:image/png;base64," + Base64.encodeBase64String(output.toByteArray());
         String verifyCodeId = UUID.randomUUID().toString();
-        redisService.set(verifyCodeId,captcha.getChallenge());
+        redisService.set(verifyCodeId,captcha.getChallenge(),1l);
         Map<String, String> result = new HashMap<String, String>();
         result.put("verifyCodeId", verifyCodeId);
         result.put("img", base64);
@@ -123,28 +127,23 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Map<String, String> login(String userName, String password, String verifyCode, String verifyCodeId, String s, String s1) {
+    public Result login(String userName, String password, String verifyCode, String verifyCodeId, HttpSession session, String s1) {
         Map<String, String> map = new HashMap<>();
         String value = redisService.getValue(verifyCodeId, String.class);
+        redisService.remove(verifyCodeId);
         if(StringUtils.isBlank(verifyCode)|| !verifyCode.equalsIgnoreCase(value)){
-            map.put("status","failure");
-            map.put("message","验证码错误");
-            return map;
+            throw new BaseException(ErrorEnum.LOGIN_VERIFYCODEERROR);
         }
         User query = new User();
         query.setName(userName);
         User user = userMapper.selectOne(query);
         if(user==null || !StringUtils.equals(user.getPassword(),password)){
-            map.put("status","failure");
-            map.put("message","账号或密码错误");
-            return map;
+            throw new BaseException(ErrorEnum.LOGIN_NOTMATCH);
         }
         String token = UUID.randomUUID().toString();
-        map.put("status","success");
-        map.put("name",userName);
-        map.put("token",token);
-        redisService.set(token,user);
-        return map;
+        redisService.set(token,user,60l);
+        SessionUser sessionUser = SessionUser.builder().token(token).user(user).build();
+        return new SuccessResult(sessionUser);
     }
 
     @Override

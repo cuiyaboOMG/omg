@@ -385,5 +385,8 @@ public class OmgApplicationTests {
 		System.out.println(a==b);
 		System.out.println(TimeUnit.MILLISECONDS.toMinutes(1552632606636l-System.currentTimeMillis()));
 		System.out.println(TimeUnit.MILLISECONDS.toHours(1552632606636l-1547777338717l));
+		SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
+		String format = sdf.format(new Date());
+		System.out.println(format);
 	}
 }
