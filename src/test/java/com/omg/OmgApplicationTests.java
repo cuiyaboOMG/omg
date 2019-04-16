@@ -370,6 +370,10 @@ public class OmgApplicationTests {
 		NumberFormat numberFormat = NumberFormat.getInstance();
 		numberFormat.setGroupingUsed(false);
 		System.out.println(numberFormat.format(new BigDecimal(10000)));
+		BigDecimal a = new BigDecimal(0);
+		if(BigDecimal.ZERO.compareTo(a)==0){
+			System.out.println("进来了");
+		}
 	}
 
 	@Test
