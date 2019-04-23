@@ -218,6 +218,14 @@
 			<artifactId>font-asian</artifactId>
 			<version>7.0.3</version>
 		</dependency>
+
+		<!-- 工具类 -->
+		<dependency>
+			<groupId>cn.hutool</groupId>
+			<artifactId>hutool-all</artifactId>
+			<version>4.3.2</version>
+		</dependency>
+
 		<!-- 不用redis-session -->
 		<!--<dependency>
 			<groupId>org.springframework.session</groupId>

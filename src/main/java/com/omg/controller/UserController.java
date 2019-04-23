@@ -2,13 +2,9 @@ package com.omg.controller;
 
 import com.omg.annotation.LogInterface;
 import com.omg.domain.result.Result;
-import com.omg.dto.UserDto;
 import com.omg.entity.User;
 import com.omg.service.UserService;
-import com.omg.util.ExcelUtils;
-import com.omg.util.excel.ImportResult;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.FileCopyUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
