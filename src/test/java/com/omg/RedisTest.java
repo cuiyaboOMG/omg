@@ -4,10 +4,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
@@ -60,6 +57,21 @@ public class RedisTest {
     //zset 有序的去重集合
     @Test
     public void test4(){
+        ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+    }
 
+    @Test
+    public void incr(){
+        ValueOperations valueOperations = redisTemplate.opsForValue();
+        Long increment = valueOperations.increment("123", 1l);
+        System.out.println(increment);
+        for (int i=0;i<100;i++){
+
+            valueOperations.setBit("test",i,true);
+        }
+        Boolean test = valueOperations.getBit("test", 1);
+        System.out.println(test);
+        Boolean test1 = valueOperations.getBit("test", 111);
+        System.out.println(test1);
     }
 }
