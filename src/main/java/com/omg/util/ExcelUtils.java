@@ -3,15 +3,17 @@ package com.omg.util;
 import com.google.common.collect.Lists;
 import com.omg.annotation.FieldValue;
 import com.omg.annotation.Repetition;
+import com.omg.util.excel.ExcelInfo;
 import com.omg.util.excel.ImportResult;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.hssf.usermodel.HSSFClientAnchor;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFRichTextString;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFClientAnchor;
+import org.apache.poi.xssf.usermodel.XSSFRichTextString;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.common.Mapper;
@@ -198,5 +200,51 @@ public class ExcelUtils {
         if("BigDecimal".equals(type)){
             field.set(t, new BigDecimal(contents));
         }
+    }
+
+
+    public static Workbook writtenInfoToExcel(List<ExcelInfo> errorExcelInfos, MultipartFile file) {
+        Workbook workbook = getWorkbook(file);
+        Sheet sheet1 = workbook.getSheetAt(0);
+        Drawing drawingPatriarch = sheet1.createDrawingPatriarch();
+        Font commentFormatter = workbook.createFont();
+        commentFormatter.setFontName("宋体");
+        commentFormatter.setFontHeightInPoints((short) 9);
+        for (ExcelInfo info:errorExcelInfos) {
+            //设置批注
+            Comment comment = null;
+            if(workbook instanceof HSSFWorkbook){
+                HSSFRichTextString rtf = new HSSFRichTextString(info.getErrorMessage());
+                rtf.applyFont(commentFormatter);
+                comment = drawingPatriarch.createCellComment(new HSSFClientAnchor(0, 0, 0, 0, (short)4, 2, (short)7, 7));
+                comment.setString(rtf);
+                comment.setAuthor("错误");
+
+            }
+            if(workbook instanceof XSSFWorkbook){
+                XSSFRichTextString rtf = new XSSFRichTextString(info.getErrorMessage());
+                rtf.applyFont(commentFormatter);
+                comment = drawingPatriarch.createCellComment(new XSSFClientAnchor(0, 0, 0, 0, 4, 2, 7, 7));
+                comment.setString(rtf);
+                comment.setAuthor("错误");
+            }
+            Row row = sheet1.getRow(info.getRowNum()-1);
+            if(row==null){
+                continue;
+            }
+            Cell cell = row.getCell(info.getLineNum());
+            if(cell==null){
+                continue;
+            }
+            cell.removeCellComment();
+            cell.setCellComment(comment);
+            //设置背景色
+            CellStyle cellStyle =workbook.createCellStyle();
+            cellStyle.cloneStyleFrom(cell.getCellStyle());
+            cellStyle.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+            cellStyle.setFillPattern(CellStyle.SOLID_FOREGROUND);
+            cell.setCellStyle(cellStyle);
+        }
+        return workbook;
     }
 }

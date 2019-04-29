@@ -1,11 +1,13 @@
 package com.omg;
 
+import com.omg.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
+import redis.clients.jedis.Client;
 
 import java.util.List;
 import java.util.Set;
@@ -34,9 +36,9 @@ public class RedisTest {
     @Test
     public void test2(){
         HashOperations hashOperations = redisTemplate.opsForHash();
-        hashOperations.put("books1","java","think in java");
-        hashOperations.put("books1","python","think in python");
-        hashOperations.put("books1","go","think in go");
+//        hashOperations.put("books1","java","think in java");
+//        hashOperations.put("books1","python","think in python");
+//        hashOperations.put("books1","go","think in go");
         Object o = hashOperations.get("books1", "java");
         List books1 = hashOperations.values("books1");
         books1.forEach(System.out::println);
@@ -62,16 +64,24 @@ public class RedisTest {
 
     @Test
     public void incr(){
+        //测试
         ValueOperations valueOperations = redisTemplate.opsForValue();
         Long increment = valueOperations.increment("123", 1l);
         System.out.println(increment);
-        for (int i=0;i<100;i++){
+        int count = 0;
+        for (int i=0;i<100000;i++){
 
-            valueOperations.setBit("test",i,true);
+            Boolean test = valueOperations.getBit("test", i);
+            if(test){
+                count++;
+            }
         }
-        Boolean test = valueOperations.getBit("test", 1);
-        System.out.println(test);
-        Boolean test1 = valueOperations.getBit("test", 111);
-        System.out.println(test1);
+        System.out.println(count);
+        System.out.println(count/100000);
+    }
+
+    @Test
+    public void bloomFilter(){
+        Client client = new Client();
     }
 }
