@@ -1,6 +1,7 @@
 package com.omg;
 
 import com.google.common.collect.Lists;
+import com.omg.entity.User;
 import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,6 +10,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.atomic.LongAdder;
 
 /**
 * @Author:         cyb
@@ -82,5 +86,21 @@ public class OmgTemporaryTest {
     @Test
     public void quictest(){
         Integer [] query = {2,1,4,3,5};
+    }
+
+    public static AtomicReference<User> atomicReference = new AtomicReference();
+    @Test
+    public void auto(){
+        User user = new User();
+        user.setAge(15);
+        user.setName("张三");
+        atomicReference.set(user);
+        User updateUser = new User();
+        updateUser.setAge(16);
+        user.setName("张三");
+        atomicReference.compareAndSet(user,updateUser);
+        LongAdder longAdder = new LongAdder();
+        longAdder.add(10l);
+        System.out.println(longAdder.longValue());
     }
 }
