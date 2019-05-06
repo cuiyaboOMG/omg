@@ -80,6 +80,7 @@ public class RedisTest {
         System.out.println(count/100000);
     }
 
+    //布隆过滤器
     @Test
     public void bloomFilter(){
         Client client = new Client();
