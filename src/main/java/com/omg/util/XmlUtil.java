@@ -5,8 +5,9 @@ import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 
 /**
- * Created by gp-0096 on 2018/8/29.
- */
+* @Author:         cyb
+* @CreateDate:     2019/5/6 17:30
+*/
 public class XmlUtil {
 
     /**
