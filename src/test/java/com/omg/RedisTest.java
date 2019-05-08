@@ -60,6 +60,11 @@ public class RedisTest {
     @Test
     public void test4(){
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+        zSetOperations.add("user","1",1);
+        zSetOperations.add("user","2",2);
+        zSetOperations.add("user","2",3);
+        Long user = zSetOperations.size("user");
+        System.out.println(user);
     }
 
     @Test
@@ -69,7 +74,7 @@ public class RedisTest {
         Long increment = valueOperations.increment("123", 1l);
         System.out.println(increment);
         int count = 0;
-        for (int i=0;i<100000;i++){
+        for (int i=0;i<100;i++){
 
             Boolean test = valueOperations.getBit("test", i);
             if(test){
@@ -84,6 +89,7 @@ public class RedisTest {
     @Test
     public void bloomFilter(){
         Client client = new Client();
+        //分支test
         //分支test
     }
 }

@@ -14,13 +14,13 @@ public class CountDownLatchExample {
 
     public static void main(String[] args) throws InterruptedException {
 
-        for(int i=0;i<1000;i++){
+        for(int i=0;i<10;i++){
             Thread thread = new Thread(new Task(i));
             thread.start();
         }
-        System.out.println("1s后起跑");
         Thread.sleep(1000);
         begin.countDown();
+        System.out.println("1s后起跑");
         countDownLatch.await();
         System.out.println("结束");
         System.out.println(count);
@@ -42,8 +42,9 @@ public class CountDownLatchExample {
                 System.out.println(i+"号起跑");
                 Thread.sleep(1000);
                 System.out.println(i+"号到达终点");
+
                 countDownLatch.countDown();
-                count.getAndIncrement();
+         //       count.getAndIncrement();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

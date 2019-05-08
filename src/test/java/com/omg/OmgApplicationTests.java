@@ -6,6 +6,7 @@ import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.config.CodeMsgConfig;
 import com.omg.entity.User;
+import com.omg.enumerate.UserType;
 import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
@@ -30,6 +31,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -392,5 +394,12 @@ public class OmgApplicationTests {
 		SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
 		String format = sdf.format(new Date());
 		System.out.println(format);
+	}
+
+	@Test
+	public void WeakReferenceTest(){
+		User user = new User();
+		user.setType(UserType.student);
+		WeakReference<User> reference = new WeakReference<>(user);
 	}
 }

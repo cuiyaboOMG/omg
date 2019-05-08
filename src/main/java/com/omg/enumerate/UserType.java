@@ -1,19 +1,21 @@
 package com.omg.enumerate;
 
 /**
- * Created by gp-0096 on 2018/8/31.
- */
-public enum UserType {
+ *
+* @Author:         cyb
+* @CreateDate:     2019/5/8 18:58
+*/
+public enum UserType implements OmgEnum{
     student(1,"学生"),teacher(2,"老师");
 
     /**value*/
     private Integer value;
 
-    private String type;
+    private String chinese;
 
     UserType(Integer value, String type) {
         this.value = value;
-        this.type = type;
+        this.chinese = type;
     }
 
     public static UserType getByValue(Integer value){
@@ -25,20 +27,13 @@ public enum UserType {
         }
         return null;
     }
-
-    public Integer getValue() {
-        return value;
+    @Override
+    public String getChinese() {
+        return chinese;
     }
 
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+    @Override
+    public String getValue() {
+        return this.toString();
     }
 }
