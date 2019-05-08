@@ -60,11 +60,6 @@ public class RedisTest {
     @Test
     public void test4(){
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
-        zSetOperations.add("user","1",1);
-        zSetOperations.add("user","2",2);
-        zSetOperations.add("user","2",3);
-        Long user = zSetOperations.size("user");
-        System.out.println(user);
     }
 
     @Test
@@ -90,6 +85,7 @@ public class RedisTest {
     public void bloomFilter(){
         Client client = new Client();
         //分支test
+        //分支test2
         //分支test
     }
 }
