@@ -9,6 +9,7 @@ import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Client;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -60,6 +61,13 @@ public class RedisTest {
     @Test
     public void test4(){
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+        /*zSetOperations.add("小李","游戏中",1);
+        zSetOperations.add("小李","在线",3);
+        zSetOperations.add("小李","离开",2);*/
+        Set<ZSetOperations.TypedTuple<Object>> set = zSetOperations.reverseRangeByScoreWithScores("小李", 1, 4);
+        for (ZSetOperations.TypedTuple<Object> o :set) {
+            System.out.println(o.getValue());
+        }
     }
 
     @Test

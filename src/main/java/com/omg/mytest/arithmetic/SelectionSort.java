@@ -1,5 +1,7 @@
 package com.omg.mytest.arithmetic;
 
+import com.omg.entity.User;
+
 /**
  * 选择排序
  * 思想：每轮选出最小值或者最大值放在最左侧，依次循环
@@ -32,5 +34,10 @@ public class SelectionSort{
         for (int i: sort){
             System.out.println(i);
         }
+    }
+
+    public void test(String v, int user,User u){
+        System.out.println("xxxx"+v);
+        System.out.println(user);
     }
 }

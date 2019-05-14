@@ -11,6 +11,7 @@ import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
 import com.omg.mytest.WxPayService;
+import com.omg.mytest.arithmetic.SelectionSort;
 import com.omg.util.DateUtils;
 import com.omg.util.XmlUtil;
 import org.apache.poi.util.IOUtils;
@@ -32,6 +33,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -401,5 +404,39 @@ public class OmgApplicationTests {
 		User user = new User();
 		user.setType(UserType.student);
 		WeakReference<User> reference = new WeakReference<>(user);
+		long start = System.currentTimeMillis();
+		while (true){
+			if(reference.get()==null){
+				long end = System.currentTimeMillis();
+				System.out.println(end-start);
+			}
+		}
+	}
+	
+	@Test
+	public void method(){
+		try {
+			Class<?> selectionSort = Class.forName("com.omg.mytest.arithmetic.SelectionSort");
+			Method main = selectionSort.getDeclaredMethod("test",String.class,int.class,User.class);
+			main.invoke((SelectionSort)selectionSort.newInstance(),"test",1,new User());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void turn(){
+		String str = "1,2";
+		String[] split = str.split(",");
+		String [] idStr = {"1","2"};
+		Lists.newArrayList();
 	}
 }
