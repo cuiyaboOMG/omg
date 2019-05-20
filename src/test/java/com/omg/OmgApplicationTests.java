@@ -434,9 +434,7 @@ public class OmgApplicationTests {
 
 	@Test
 	public void turn(){
-		String str = "1,2";
-		String[] split = str.split(",");
-		String [] idStr = {"1","2"};
-		Lists.newArrayList();
+		String format = String.format("我的世界", "hah");
+		System.out.println(format);
 	}
 }
