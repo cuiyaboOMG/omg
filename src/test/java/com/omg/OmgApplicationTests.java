@@ -12,6 +12,7 @@ import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
 import com.omg.mytest.WxPayService;
 import com.omg.mytest.arithmetic.SelectionSort;
+import com.omg.service.impl.UserServiceImpl;
 import com.omg.util.DateUtils;
 import com.omg.util.XmlUtil;
 import org.apache.poi.util.IOUtils;
@@ -56,6 +57,8 @@ public class OmgApplicationTests {
     private UserMapper userMapper;
 	@Autowired
 	private CodeMsgConfig codeMsgConfig;
+	@Autowired
+	private UserServiceImpl userService;
 
 	@Test
 	public void contextLoads() throws InterruptedException {
@@ -436,5 +439,15 @@ public class OmgApplicationTests {
 	public void turn(){
 		String format = String.format("我的世界", "hah");
 		System.out.println(format);
+	}
+
+	@Test
+	public void tran(){
+//		User user = new User();
+//		userService.insertUserTestTransactiona(user);
+		short a = 128;
+		byte b = (byte)a;
+		System.out.println(a);
+		System.out.println(b);
 	}
 }
