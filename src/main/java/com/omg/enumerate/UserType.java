@@ -1,44 +1,42 @@
 package com.omg.enumerate;
 
+import com.alibaba.fastjson.annotation.JSONType;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Getter;
+
 /**
- * Created by gp-0096 on 2018/8/31.
- */
-public enum UserType {
+ *
+* @Author:         cyb
+* @CreateDate:     2019/5/8 18:58
+*/
+@JSONType(serializeEnumAsJavaBean = true)
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+public enum UserType implements OmgEnum{
     student(1,"学生"),teacher(2,"老师");
 
     /**value*/
     private Integer value;
 
-    private String type;
+    @Getter
+    private String chinese;
 
     UserType(Integer value, String type) {
         this.value = value;
-        this.type = type;
+        this.chinese = type;
     }
 
     public static UserType getByValue(Integer value){
         UserType[] values = UserType.values();
         for(UserType item:values){
-            if(item.getValue().equals(value)){
+            if(item.getValue()==value){
                 return  item;
             }
         }
         return null;
     }
 
-    public Integer getValue() {
+    @Override
+    public int getValue() {
         return value;
-    }
-
-    public void setValue(Integer value) {
-        this.value = value;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 }

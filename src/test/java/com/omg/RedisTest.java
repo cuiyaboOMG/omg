@@ -1,6 +1,5 @@
 package com.omg;
 
-import com.omg.entity.User;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +59,14 @@ public class RedisTest {
     @Test
     public void test4(){
         ZSetOperations zSetOperations = redisTemplate.opsForZSet();
+        /*zSetOperations.add("小李","游戏中",1);
+        zSetOperations.add("小李","在线",3);
+        zSetOperations.add("小李","离开",2);*/
+        zSetOperations.add("小李","离开",4);
+        Set<ZSetOperations.TypedTuple<Object>> set = zSetOperations.reverseRangeByScoreWithScores("小李", 1, 4);
+        for (ZSetOperations.TypedTuple<Object> o :set) {
+            System.out.println(o.getValue());
+        }
     }
 
     @Test
@@ -69,7 +76,7 @@ public class RedisTest {
         Long increment = valueOperations.increment("123", 1l);
         System.out.println(increment);
         int count = 0;
-        for (int i=0;i<100000;i++){
+        for (int i=0;i<100;i++){
 
             Boolean test = valueOperations.getBit("test", i);
             if(test){
@@ -80,8 +87,12 @@ public class RedisTest {
         System.out.println(count/100000);
     }
 
+    //布隆过滤器
     @Test
     public void bloomFilter(){
         Client client = new Client();
+        //分支test
+        //分支test2
+        //分支test
     }
 }

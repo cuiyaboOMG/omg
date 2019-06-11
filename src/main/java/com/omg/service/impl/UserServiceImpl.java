@@ -181,13 +181,16 @@ public class UserServiceImpl implements UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public String insertUserTestTransactiona(User userDto) {
         User user = new User();
-        user.setAge(25);
+        user.setAge(26);
         user.setName("芸歌");
         userMapper.insert(user);
         try {
             SpringContextHolder.getBean(UserServiceImpl.class).b();
+            if(1/0>0){
+                logger.error("报错");
+            }
         }catch (Exception e){
-
+            throw new BaseException("子方法报错");
         }
         return "success";
     }
@@ -198,9 +201,9 @@ public class UserServiceImpl implements UserService {
         user.setName("波波");
         user.setAge(25);
         userMapper.insert(user);
-        if(1/0>0){
+        /*if(1/0>0){
             logger.error("报错");
-        }
+        }*/
 
     }
 }

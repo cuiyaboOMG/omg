@@ -6,10 +6,13 @@ import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.config.CodeMsgConfig;
 import com.omg.entity.User;
+import com.omg.enumerate.UserType;
 import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
 import com.omg.mytest.WxPayService;
+import com.omg.mytest.arithmetic.SelectionSort;
+import com.omg.service.impl.UserServiceImpl;
 import com.omg.util.DateUtils;
 import com.omg.util.XmlUtil;
 import org.apache.poi.util.IOUtils;
@@ -30,6 +33,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.ref.WeakReference;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -51,6 +57,8 @@ public class OmgApplicationTests {
     private UserMapper userMapper;
 	@Autowired
 	private CodeMsgConfig codeMsgConfig;
+	@Autowired
+	private UserServiceImpl userService;
 
 	@Test
 	public void contextLoads() throws InterruptedException {
@@ -392,5 +400,54 @@ public class OmgApplicationTests {
 		SimpleDateFormat sdf = new SimpleDateFormat("a hh:mm");
 		String format = sdf.format(new Date());
 		System.out.println(format);
+	}
+
+	@Test
+	public void WeakReferenceTest(){
+		User user = new User();
+		user.setType(UserType.student);
+		WeakReference<User> reference = new WeakReference<>(user);
+		long start = System.currentTimeMillis();
+		while (true){
+			if(reference.get()==null){
+				long end = System.currentTimeMillis();
+				System.out.println(end-start);
+			}
+		}
+	}
+	
+	@Test
+	public void method(){
+		try {
+			Class<?> selectionSort = Class.forName("com.omg.mytest.arithmetic.SelectionSort");
+			Method main = selectionSort.getDeclaredMethod("test",String.class,int.class,User.class);
+			main.invoke((SelectionSort)selectionSort.newInstance(),"test",1,new User());
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			e.printStackTrace();
+		} catch (InstantiationException e) {
+			e.printStackTrace();
+		} catch (NoSuchMethodException e) {
+			e.printStackTrace();
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	public void turn(){
+		String format = String.format("我的世界", "hah");
+		System.out.println(format);
+	}
+
+	@Test
+	public void tran(){
+//		User user = new User();
+//		userService.insertUserTestTransactiona(user);
+		short a = 128;
+		byte b = (byte)a;
+		System.out.println(a);
+		System.out.println(b);
 	}
 }
