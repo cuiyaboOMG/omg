@@ -71,15 +71,6 @@ public class OmgTemporaryTest {
     }
 
     @Test
-    public void sb(){
-        StringBuffer sb = new StringBuffer("http://static.bigdata.palmyou.com/1543989625798,test.xlsx||http://static.bigdata.palmyou.com/1543989625849,海南-酒店协会-工作职能-星级酒店复核-导入模板 .xlsx||");
-        if(sb.length()>2){
-
-        }
-        System.out.println(sb.substring(0,sb.length()-2));
-    }
-
-    @Test
     public void quictest(){
         Integer [] query = {2,1,4,3,5};
     }
