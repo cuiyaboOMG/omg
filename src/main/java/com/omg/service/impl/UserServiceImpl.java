@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpSession;
 import java.awt.*;
@@ -42,6 +43,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @Auther: cui
@@ -64,6 +66,14 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private AttachUtil attachUtil;
+
+    private static volatile Map<Integer, Long> cache =  new ConcurrentHashMap<Integer, Long>();
+
+    public void init () {
+        List<User> users = userMapper.selectAll();
+        System.out.println("初始化成功"+users.size());
+        cache.put(1,1l);
+    }
 
     @Override
     public Result<User> findByName(String name) {
@@ -184,26 +194,25 @@ public class UserServiceImpl implements UserService {
         user.setAge(26);
         user.setName("芸歌");
         userMapper.insert(user);
-        try {
-            SpringContextHolder.getBean(UserServiceImpl.class).b();
+        SpringContextHolder.getBean(UserServiceImpl.class).b();
+        /*try {
             if(1/0>0){
                 logger.error("报错");
             }
         }catch (Exception e){
             throw new BaseException("子方法报错");
-        }
+        }*/
         return "success";
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void b() {
         User user = new User();
         user.setName("波波");
         user.setAge(25);
         userMapper.insert(user);
-        /*if(1/0>0){
+        if(1/0>0){
             logger.error("报错");
-        }*/
+        }
 
     }
 }

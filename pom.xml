@@ -154,11 +154,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>net.pusuo</groupId>
 			<artifactId>patchca</artifactId>
 			<version>0.5.0</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
@@ -230,6 +230,11 @@
 			<groupId>org.apache.zookeeper</groupId>
 			<artifactId>zookeeper</artifactId>
 			<version>3.4.6</version>
+		</dependency>
+		<dependency>
+			<groupId>com.dangdang</groupId>
+			<artifactId>sharding-jdbc-core</artifactId>
+			<version>1.4.1</version>
 		</dependency>
 		<!-- 不用redis-session -->
 		<!--<dependency>
