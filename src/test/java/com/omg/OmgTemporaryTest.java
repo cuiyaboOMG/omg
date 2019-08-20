@@ -73,5 +73,6 @@ public class OmgTemporaryTest {
     @Test
     public void quictest(){
         Integer [] query = {2,1,4,3,5};
+        //test pick2
     }
 }
