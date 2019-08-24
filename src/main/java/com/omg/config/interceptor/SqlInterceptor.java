@@ -43,7 +43,7 @@ public class SqlInterceptor implements Interceptor{
         Object paramterObject = args[1];
         BoundSql boundSql = mappedStatement.getBoundSql(paramterObject);
         String sql = boundSql.getSql();
-        sql = sql+"and 1=1";
+       // sql = sql+" and 1=1";
         resetSql2Invocation(invocation,sql);
         return invocation.proceed();
     }
