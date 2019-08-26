@@ -236,6 +236,11 @@
 			<artifactId>sharding-jdbc-core</artifactId>
 			<version>1.4.1</version>
 		</dependency>
+		<dependency>
+			<groupId>com.alibaba.rocketmq</groupId>
+			<artifactId>rocketmq-client</artifactId>
+			<version>3.2.6</version>
+		</dependency>
 		<!-- 不用redis-session -->
 		<!--<dependency>
 			<groupId>org.springframework.session</groupId>
@@ -278,9 +283,10 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources/</directory>
-				<excludes>
+				<!--如果排除的话，无法访问静态资源-->
+				<!--<excludes>
 					<exclude>static/**</exclude>
-				</excludes>
+				</excludes>-->
 			</resource>
 		</resources>
 	</build>
