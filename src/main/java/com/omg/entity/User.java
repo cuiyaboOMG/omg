@@ -9,12 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Id;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 /**
  * Created by gp-0096 on 2018/8/24.
@@ -43,7 +40,4 @@ public class User implements Serializable{
     private String password;
 
     private UserType type;
-
-    @Transient
-    private LocalDateTime time;
 }

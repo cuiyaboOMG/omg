@@ -35,7 +35,7 @@ public class UserController extends BaseController{
     }
 
     @PostMapping(value = "/insert/user")
-    public String insertUser(@RequestBody @Valid User userDto, BindingResult result){
+    public String insertUser(@Valid User userDto, BindingResult result){
         return userService.insertUser(userDto);
     }
 

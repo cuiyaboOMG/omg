@@ -43,7 +43,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -442,24 +441,13 @@ public class OmgApplicationTests {
 		System.out.println(format);
 	}
 
-	/**
-	 * java 8 用法
-	 */
 	@Test
 	public void tran(){
-		List<Integer> tempList = Lists.newArrayList();
-		tempList.add(1);
-		tempList.add(null);
-		tempList.add(2);
-		List<User> users = Lists.newArrayList();
-		tempList.stream().filter(Objects::isNull).map(fee ->{
-					User user = new User();
-					System.out.println(fee);
-					user.setAge(fee);
-					users.add(user);
-					return user;
-				}
-				).collect(Collectors.toList());
-		System.out.println(users.size());
+//		User user = new User();
+//		userService.insertUserTestTransactiona(user);
+		short a = 128;
+		byte b = (byte)a;
+		System.out.println(a);
+		System.out.println(b);
 	}
 }
