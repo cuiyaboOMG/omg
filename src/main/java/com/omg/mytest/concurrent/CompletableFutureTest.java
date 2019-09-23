@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.Random;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -18,7 +19,7 @@ public class CompletableFutureTest {
     @Autowired
     private UserService userService;
 
-    private CompletableFuture<Double> add(){
+    private CompletableFuture<String> add(){
         return CompletableFuture.supplyAsync(()->(test()));
     }
 
@@ -27,20 +28,17 @@ public class CompletableFutureTest {
         return null;
     }
 
-    private double test(){
-        System.out.println("第一个执行");
-        try {
-            Thread.sleep(TimeUnit.SECONDS.toSeconds(2));
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        Random random = new Random();
-        return random.nextDouble();
+    private String test(){
+        return "etwt";
     }
-    public static void main(String[] args) {
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException {
         CompletableFutureTest completableFutureTest = new CompletableFutureTest();
         completableFutureTest.add().thenCompose(v ->{return completableFutureTest.transfer();});
-
+        CompletableFuture<String> stringCompletableFuture = completableFutureTest.add().thenApply(str -> str + "1111");
+        System.out.println(stringCompletableFuture.get());
+        CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> "Hello").thenCompose(string -> CompletableFuture.supplyAsync(() -> string + " world"));
+        System.out.println(completableFuture.get());
     }
 
 }

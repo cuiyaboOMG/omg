@@ -1,14 +1,17 @@
 package com.omg;
 
 import com.google.common.collect.Lists;
-import org.apache.commons.lang.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
 * @Author:         cyb
@@ -74,5 +77,13 @@ public class OmgTemporaryTest {
     public void quictest(){
         Integer [] query = {2,1,4,3,5};
         //test pick2
+        BigDecimal s = new BigDecimal(223.33);
+        double v = s.doubleValue();
+        String s1 = String.valueOf(v);
+        Pattern pattern=Pattern.compile("^(([1-9]{1}\\d*)|([0]{1}))(\\.(\\d){0,2})?$"); // 判断小数点后2位的数字的正则表达式
+        Matcher match=pattern.matcher(s1);
+        if(match.matches()){
+            System.out.println(s1);
+        }
     }
 }
