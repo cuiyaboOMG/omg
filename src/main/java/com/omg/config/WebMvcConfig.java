@@ -8,9 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.format.FormatterRegistry;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+
+import java.util.List;
 
 /**
 * @Author:         cyb
@@ -23,6 +26,9 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
 
     @Autowired
     LoginInterceptor loginInterceptor;
+
+    @Autowired
+    CurrentUserConfig currentUserConfig;
 
     @Value("${excludePathPatterns}")
     private String excludePathPatterns;
@@ -41,5 +47,11 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 配置模板资源路径
         registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/");
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers){
+        argumentResolvers.add(currentUserConfig);
+        super.addArgumentResolvers(argumentResolvers);
     }
 }

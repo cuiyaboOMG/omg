@@ -1,7 +1,9 @@
 package com.omg.controller;
 
+import com.omg.annotation.CurrentUser;
 import com.omg.annotation.LogInterface;
 import com.omg.domain.result.Result;
+import com.omg.domain.vo.CurrentUserInfo;
 import com.omg.entity.User;
 import com.omg.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +37,8 @@ public class UserController extends BaseController{
     }
 
     @PostMapping(value = "/insert/user")
-    public String insertUser(@Valid User userDto, BindingResult result){
+    public String insertUser(@CurrentUser CurrentUserInfo currentUser, @RequestBody @Valid User userDto, BindingResult result){
+        System.out.println(currentUser.toString());
         return userService.insertUser(userDto);
     }
 
