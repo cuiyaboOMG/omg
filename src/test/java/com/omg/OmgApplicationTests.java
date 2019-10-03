@@ -443,8 +443,8 @@ public class OmgApplicationTests {
 
 	@Test
 	public void tran(){
-//		User user = new User();
-//		userService.insertUserTestTransactiona(user);
+		User user = new User();
+		userService.insertUserTestTransactiona(user);
 		short a = 128;
 		byte b = (byte)a;
 		System.out.println(a);

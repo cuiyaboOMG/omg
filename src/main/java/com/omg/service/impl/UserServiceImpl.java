@@ -187,7 +187,7 @@ public class UserServiceImpl implements UserService {
         AttachUtil.uploadAttach(file);
     }
 
-    //事物测试 b方法报错回滚  a 不受影响
+    //事物测试 a方法报错回滚  b 不受影响
     @Transactional(propagation = Propagation.REQUIRED)
     public String insertUserTestTransactiona(User userDto) {
         User user = new User();
@@ -195,24 +195,19 @@ public class UserServiceImpl implements UserService {
         user.setName("芸歌");
         userMapper.insert(user);
         SpringContextHolder.getBean(UserServiceImpl.class).b();
-        /*try {
-            if(1/0>0){
-                logger.error("报错");
-            }
-        }catch (Exception e){
-            throw new BaseException("子方法报错");
-        }*/
+        int i=1/0;
         return "success";
     }
 
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void b() {
+        c();
+    }
+
+    public void c(){
         User user = new User();
         user.setName("波波");
         user.setAge(25);
         userMapper.insert(user);
-        if(1/0>0){
-            logger.error("报错");
-        }
-
     }
 }
