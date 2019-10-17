@@ -43,6 +43,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -439,6 +441,10 @@ public class OmgApplicationTests {
 	public void turn(){
 		String format = String.format("我的世界", "hah");
 		System.out.println(format);
+
+		Pattern p = Pattern.compile("\\s*|\t|\r|\n");
+		Matcher m = p.matcher("my\n");
+		System.out.println(m.replaceAll(""));;
 	}
 
 	@Test

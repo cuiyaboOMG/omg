@@ -2,19 +2,15 @@ package com.omg;
 
 import com.google.common.collect.Lists;
 import com.omg.entity.User;
-import org.apache.commons.lang.ArrayUtils;
-import com.omg.entity.User;
 import com.omg.util.CommonUtil;
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.regex.Matcher;
@@ -101,12 +97,31 @@ public class OmgTemporaryTest {
     public void stream(){
         ArrayList<User> objects = Lists.newArrayList();
         User user1= new User();
-        user1.setName("家电>电视");
+        user1.setName("2F");
         User user2= new User();
-        user2.setName("家电>电视");
+        user2.setName("11F");
+        User user3= new User();
+        user3.setName("3F");
         objects.add(user1);
         objects.add(user2);
-        String collect = objects.stream().filter(CommonUtil.distinctByKey(User::getName)).map(User::getName).collect(Collectors.joining("/"));
+        objects.add(user3);
+        String collect = objects.stream().sorted(new Comparator<User>() {
+            @Override
+            public int compare(User o1, User o2) {
+                String var1 = o1.getName();
+                String var2 = o2.getName();
+                if(StringUtils.isBlank(var1)||StringUtils.isBlank(var2)){
+                    return 0;
+                }
+                if(var1.lastIndexOf("F")>0){
+                    var1 = var1.substring(0,var1.lastIndexOf("F"));
+                }
+                if(var2.lastIndexOf("F")>0){
+                    var2 = var2.substring(0,var2.lastIndexOf("F"));
+                }
+                return Integer.valueOf(var1).compareTo(Integer.valueOf(var2));
+            }
+        }).filter(CommonUtil.distinctByKey(User::getName)).map(User::getName).collect(Collectors.joining("/"));
         List<String> categoryNameList =objects.stream().filter(CommonUtil.distinctByKey(User::getName)).map(User::getName).collect(Collectors.toList());
         String s = CommonUtil.formatList(categoryNameList, "/");
         System.out.println(collect);
