@@ -5,6 +5,8 @@ import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
 import com.omg.config.CodeMsgConfig;
+import com.omg.design.strategy.Standard;
+import com.omg.design.strategy.StandardOne;
 import com.omg.entity.User;
 import com.omg.enumerate.UserType;
 import com.omg.jms.producer.MyProducer;
@@ -267,6 +269,20 @@ public class OmgApplicationTests {
 		System.out.println();
 	}
 
+	@Test
+    public void update(){
+        List<User> list = Lists.newArrayList();
+        User user1 = new User();
+        user1.setAge(18);
+        user1.setId(27);
+        User user2 = new User();
+        user2.setAge(18);
+        user2.setId(27);
+        list.add(user1);
+        list.add(user2);
+        userMapper.updateBatch(list);
+    }
+
 	public static String getChinese() {
 		String str = null;
 		int highPos, lowPos;
@@ -456,4 +472,12 @@ public class OmgApplicationTests {
 		System.out.println(a);
 		System.out.println(b);
 	}
+
+	@Test
+	public void design(){
+		Standard standardOne = new StandardOne();
+		System.out.println(standardOne.test("omg001"));
+        List<String> floorIndex = Lists.newArrayList(new String []{"B1","B2","B3","B4","B5","B6","B7","B8","1F","2F","3F","4F","5F","6F","7F","8F","9F","10F","11F","12F","13F","14F","15F","16F"});
+
+    }
 }
