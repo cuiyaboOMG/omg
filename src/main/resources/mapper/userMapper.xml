@@ -12,4 +12,18 @@
 			(#{item.name}, #{item.age}, #{item.password})
 		</foreach>
 	</insert>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        update user
+        set age =
+        <foreach collection="list" item="item" index="index"
+                 separator=" " open="case id" close="end">
+            when #{item.id} then #{item.age}
+        </foreach>
+        where id in
+        <foreach collection="list" item="item" index="index"
+                 separator="," open="(" close=")">
+            #{item.id}
+        </foreach>
+    </update>
 </mapper>

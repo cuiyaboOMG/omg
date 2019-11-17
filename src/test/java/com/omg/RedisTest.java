@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.*;
 import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Client;
+import redis.clients.jedis.Jedis;
 
 import java.util.List;
 import java.util.Set;
@@ -95,5 +96,12 @@ public class RedisTest {
         //分支test2
         //分支test
         //分支test3
+    }
+
+    @Test
+    public void jedis(){
+        Jedis jedis=new Jedis("cluster227.uat1.rs.com",6380);
+        //     jedis.auth("1q2w3e");
+        System.out.println("connect is OK============>"+jedis.ping());
     }
 }
