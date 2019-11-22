@@ -2,6 +2,7 @@ package com.omg;
 
 import com.google.common.collect.Lists;
 import com.omg.entity.User;
+import com.omg.service.StubFactory;
 import com.omg.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
@@ -142,5 +143,13 @@ public class OmgTemporaryTest {
         LongAdder longAdder = new LongAdder();
         longAdder.add(10l);
         System.out.println(longAdder.longValue());
+    }
+
+    @Test
+    public void spi(){
+        ServiceLoader<StubFactory> load = ServiceLoader.load(StubFactory.class);
+        for (StubFactory s:load) {
+            System.out.println(s.create("222"));
+        }
     }
 }
