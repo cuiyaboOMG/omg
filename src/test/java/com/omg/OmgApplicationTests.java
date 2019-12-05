@@ -1,6 +1,7 @@
 package com.omg;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.collect.HashMultimap;
 import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
@@ -17,6 +18,7 @@ import com.omg.mytest.arithmetic.SelectionSort;
 import com.omg.service.impl.UserServiceImpl;
 import com.omg.util.DateUtils;
 import com.omg.util.XmlUtil;
+import org.apache.commons.collections.MultiMap;
 import org.apache.poi.util.IOUtils;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -42,6 +44,7 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
@@ -117,6 +120,7 @@ public class OmgApplicationTests {
 	@Test
 	public void xml1(){
 		BigDecimal bigDecimal = new BigDecimal(10.00);
+        System.out.println(bigDecimal.toString());
 		Request request = new Request();
 		request.setCode(1);
 		request.setTransactionId(bigDecimal.multiply(new BigDecimal(1)).toPlainString());
@@ -461,6 +465,7 @@ public class OmgApplicationTests {
 		Pattern p = Pattern.compile("\\s*|\t|\r|\n");
 		Matcher m = p.matcher("my\n");
 		System.out.println(m.replaceAll(""));;
+        System.out.println(LocalDate.now().toString());
 	}
 
 	@Test
@@ -478,6 +483,9 @@ public class OmgApplicationTests {
 		Standard standardOne = new StandardOne();
 		System.out.println(standardOne.test("omg001"));
         List<String> floorIndex = Lists.newArrayList(new String []{"B1","B2","B3","B4","B5","B6","B7","B8","1F","2F","3F","4F","5F","6F","7F","8F","9F","10F","11F","12F","13F","14F","15F","16F"});
-
+        HashMap<Long, String> test = new HashMap<>();
+        test.put(1l,"一");
+        String s = test.get(1l);
+        System.out.println(s);
     }
 }
