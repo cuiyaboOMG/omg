@@ -486,6 +486,6 @@ public class OmgApplicationTests {
         HashMap<Long, String> test = new HashMap<>();
         test.put(1l,"一");
         String s = test.get(1l);
-        System.out.println(s);
+        System.out.println(s);//22
     }
 }
