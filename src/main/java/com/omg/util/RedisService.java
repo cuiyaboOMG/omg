@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Collection;
@@ -108,6 +109,18 @@ public class RedisService{
             logger.error("get value from redis failed", e);
             return null;
         }
+    }
+
+    /**
+     * 根据key查询
+     * @param key 键值
+     * @return object
+     */
+    public  Object get(String key) {
+        if(StringUtils.isEmpty(key)){
+            return null;
+        }
+        return redisTemplate.opsForValue().get(key);
     }
 
     public <T> List<T> getListValue(final String key) {
