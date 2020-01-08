@@ -5,7 +5,7 @@
 
 <generatorConfiguration>
     <properties resource="config.properties"/>
-    <classPathEntry location="C:/Users/cui/.m2/repository/mysql/mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
+    <classPathEntry location="D:\soft\maven\repository\repository\mysql\mysql-connector-java/5.1.46/mysql-connector-java-5.1.46.jar"/>
     <!-- <classPathEntry location="E:/repository/mysql/mysql-connector-java/5.1.43/mysql-connector-java-5.1.43.jar"/>-->
      <!--<classPathEntry location="D:\Development\maven\repository\mysql\mysql-connector-java\5.1.39\mysql-connector-java-5.1.39.jar"/>-->
     <!-- <classPathEntry location="C:/Users/gp-luyinlai/.m2/repository/mysql/mysql-connector-java/5.1.43/mysql-connector-java-5.1.43.jar"/> -->
@@ -13,9 +13,9 @@
     <context id="Oracle" targetRuntime="MyBatis3Simple" defaultModelType="flat">
 
 
-        <plugin type="${mapper.plugin}">
+        <!--<plugin type="${mapper.plugin}">
             <property name="mappers" value="${mapper.Mapper}"/>
-        </plugin>
+        </plugin>-->
 
         <jdbcConnection driverClass="${jdbc.driverClass}"
                         connectionURL="${jdbc.url}"
