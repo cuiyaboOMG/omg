@@ -6,6 +6,8 @@ import com.omg.domain.result.Result;
 import com.omg.domain.vo.CurrentUserInfo;
 import com.omg.entity.User;
 import com.omg.service.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -20,6 +22,7 @@ import java.io.IOException;
 
 @RestController
 @Validated
+@Api(tags = "用户相关接口")
 public class UserController extends BaseController{
     @Autowired
     private UserService userService;

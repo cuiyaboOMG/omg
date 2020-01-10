@@ -43,10 +43,20 @@ public class WebMvcConfig extends WebMvcConfigurationSupport {
         registry.addConverter(new DateConverterConfig());
     }
 
+/**
+ * 手动映射资源文件
+ * 注：
+ * 1.springboot默认映射路径为
+ * /** 映射到 /static （或/public、/resources、/META-INF/resources）-> 优先级META/resources > resources > static > public
+ * /webjars/** 映射到 classpath:/META-INF/resources/webjars/
+ * 2.因为类似swgger-ui.html在外部jar中，所以需要手动映射资源文件
+ */
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         // 配置模板资源路径
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
         registry.addResourceHandler("/static/**").addResourceLocations(ResourceUtils.CLASSPATH_URL_PREFIX+"/static/");
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
     }
 
     @Override
