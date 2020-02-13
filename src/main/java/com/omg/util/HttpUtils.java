@@ -1,22 +1,23 @@
 package com.omg.util;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.client.methods.HttpPut;
+import org.apache.http.client.methods.*;
 import org.apache.http.conn.ClientConnectionManager;
 import org.apache.http.conn.scheme.Scheme;
 import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -281,7 +282,6 @@ public class HttpUtils {
         if (host.startsWith("https://")) {
             sslClient(httpClient);
         }
-
         return httpClient;
     }
 
@@ -310,5 +310,29 @@ public class HttpUtils {
         } catch (NoSuchAlgorithmException ex) {
             throw new RuntimeException(ex);
         }
+    }
+
+    /**
+     * http json请求
+     * @param url
+     * @param json
+     * @return
+     * @throws Exception
+     */
+    public static String doPost(String url,String json)
+            throws Exception {
+        CloseableHttpClient client = HttpClients.createDefault();
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");
+
+
+        StringEntity se = new StringEntity(json);
+        se.setContentType("text/json");
+        httpPost.setEntity(se);
+
+        CloseableHttpResponse response = client.execute(httpPost);
+        HttpEntity entity = response.getEntity();
+        String result = EntityUtils.toString(entity, "UTF-8");
+        return result;
     }
 }

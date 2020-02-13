@@ -152,4 +152,16 @@ public class OmgTemporaryTest {
             System.out.println(s.create("222"));
         }
     }
+
+    @Test
+    public void symbolicCalculation(){
+        int var1 = 2;//0001
+        int var2 = 2;//0001
+        int i = var1 & var2;
+        int i1 = var1 ^ var2;
+        int i2 = var1 << 2;
+        System.out.println(i);
+        System.out.println(i1);
+        System.out.println(i2);
+    }
 }

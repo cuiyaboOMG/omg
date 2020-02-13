@@ -10,6 +10,8 @@ import com.omg.design.strategy.Standard;
 import com.omg.design.strategy.StandardOne;
 import com.omg.entity.User;
 import com.omg.enumerate.UserType;
+import com.omg.http.Body;
+import com.omg.http.Security;
 import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.UserMapper;
 import com.omg.mytest.PayAssemble;
@@ -17,6 +19,7 @@ import com.omg.mytest.WxPayService;
 import com.omg.mytest.arithmetic.SelectionSort;
 import com.omg.service.impl.UserServiceImpl;
 import com.omg.util.DateUtils;
+import com.omg.util.HttpUtils;
 import com.omg.util.XmlUtil;
 import org.apache.commons.collections.MultiMap;
 import org.apache.poi.util.IOUtils;
@@ -488,4 +491,46 @@ public class OmgApplicationTests {
         String s = test.get(1l);
         System.out.println(s);//11
     }
+
+	/**
+	 * 劵仓异步购买测试
+	 */
+	@Test
+	public void httpTest(){
+		com.omg.http.Request request = new com.omg.http.Request();
+		Body body = new Body();
+		body.setActid("JJYBJK");
+		body.setBuynum("2");
+		body.setMercid("888030838257228");
+		body.setNotifyurl("http://127.0.0.1:8889/group/plat/qcCal");
+		body.setOrdno("15573865671080000");
+		body.setPhone("15959340394");
+
+		com.omg.http.Header header = new com.omg.http.Header();
+		header.setApiid("610060");
+		header.setBusdt("20190509");
+		header.setChnno("11547");
+		header.setIpaddr("");
+		header.setReqjnl("");
+		header.setReqopetm("");
+		header.setVersion("");
+
+		request.setBody(body);
+		request.setHeader(header);
+
+		Security security = new Security();
+		security.setDesvalue("wOdMlzagqRkj/UtSROcCs/370y2NQTM+gFaA52u143o=");
+		security.setSignvalue("690bce6c97e6ec5b998305bf916f3285");
+		request.setSecurity(security);
+
+		String requestJSON = JSONObject.toJSONString(request);
+		System.out.println(requestJSON);
+		try {
+			String response = HttpUtils.doPost("http://test.qcapi.quancangyun.com/api/service.htm", requestJSON);
+			System.out.println(response);
+		} catch (Exception e) {
+			e.printStackTrace();
+			
+		}
+	}
 }
