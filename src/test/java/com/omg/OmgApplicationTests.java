@@ -2,6 +2,7 @@ package com.omg;
 
 import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.HashMultimap;
+import com.hisun.crypt.mac.CryptUtilImpl;
 import com.omg.XmlBean.Header;
 import com.omg.XmlBean.PolicyList;
 import com.omg.XmlBean.Request;
@@ -22,6 +23,7 @@ import com.omg.util.DateUtils;
 import com.omg.util.HttpUtils;
 import com.omg.util.XmlUtil;
 import org.apache.commons.collections.MultiMap;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.poi.util.IOUtils;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -518,9 +520,14 @@ public class OmgApplicationTests {
 		request.setBody(body);
 		request.setHeader(header);
 
+		//获取signKey
+		String requestData = JSONObject.toJSONString(request);
+		String signKey = getSignKey(requestData);
+		String desKey = getDesKey();
+
 		Security security = new Security();
-		security.setDesvalue("wOdMlzagqRkj/UtSROcCs/370y2NQTM+gFaA52u143o=");
-		security.setSignvalue("690bce6c97e6ec5b998305bf916f3285");
+		security.setDesvalue(desKey);
+		security.setSignvalue(signKey);
 		request.setSecurity(security);
 
 		String requestJSON = JSONObject.toJSONString(request);
@@ -532,5 +539,28 @@ public class OmgApplicationTests {
 			e.printStackTrace();
 			
 		}
+	}
+
+
+	private String getDesKey(){
+		CryptUtilImpl cryptUtil = new CryptUtilImpl();
+
+		String desKey = "vcefa35ijx";//分配的密钥
+		String operationTime= DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
+
+		desKey = desKey + operationTime;
+		String desvalue = cryptUtil.cryptDes(desKey, desKey);
+		return desvalue;
+	}
+
+	private String getSignKey(String requestData){
+		CryptUtilImpl cryptUtil = new CryptUtilImpl();
+
+		String signKey  = "xefaf9ikec";//分配的密钥
+		String operationTime= DateFormatUtils.format(new Date(), "yyyyMMddHHmmss");
+
+		signKey  = signKey  + operationTime;
+		String signValue = cryptUtil.cryptDes(requestData, signKey );
+		return signValue;
 	}
 }
