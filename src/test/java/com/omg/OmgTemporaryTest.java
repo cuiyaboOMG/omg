@@ -2,6 +2,8 @@ package com.omg;
 
 import com.google.common.collect.Lists;
 import com.omg.entity.User;
+import com.omg.mytest.concurrent.LazySimple1;
+import com.omg.mytest.concurrent.LazySimple2;
 import com.omg.service.StubFactory;
 import com.omg.util.CommonUtil;
 import org.apache.commons.lang.StringUtils;
@@ -10,7 +12,14 @@ import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
@@ -147,6 +156,17 @@ public class OmgTemporaryTest {
 
     @Test
     public void spi(){
+        Class<StubFactory> stubFactoryClass = StubFactory.class;
+        Class<?>[] interfaces = stubFactoryClass.getInterfaces();
+        for (Class c:interfaces) {
+            Method create = null;
+            try {
+                create = c.getMethod("create", String.class);
+                create.invoke(c,"222");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
         ServiceLoader<StubFactory> load = ServiceLoader.load(StubFactory.class);
         for (StubFactory s:load) {
             System.out.println(s.create("222"));
@@ -163,5 +183,67 @@ public class OmgTemporaryTest {
         System.out.println(i);
         System.out.println(i1);
         System.out.println(i2);
+
+        String s = buildFloor("B1/1F");
+        System.out.println(s);
+    }
+
+    private String buildFloor(String target){
+        String replace = target.replace("/", " ");
+        String[] s = replace.split(" ");
+        List<String> result = Lists.newArrayList();
+        for (String s1:s) {
+            if(s1.substring(0,1).equals("B")){
+                result.add(s1);
+                continue;
+            }
+            String floor = s1.substring(0, s1.length()-1);
+            String unit = s1.substring(s1.length() - 1);
+            s1 = unit+floor;
+            result.add(s1);
+        }
+        return org.apache.commons.lang.StringUtils.join(result, " ");
+    }
+
+    @Test
+    public void testSigln(){
+        Thread thread1 = new Thread(new LazySimple1());
+        Thread thread2 = new Thread(new LazySimple2());
+        thread1.start();
+        thread2.start();
+        System.out.println("thread:"+thread1.getName());
+        System.out.println("thread:"+thread2.getName());
+    }
+
+    @Test
+    public void firstCase(){
+        String s = "Abc";
+        char[] chars = s.toCharArray();
+        chars[0]+= 32;
+        System.out.println(String.valueOf(chars));
+
+        LocalDate localDate = LocalDate.parse("2019-02-01");
+        LocalDate add = localDate.plusMonths(1l);
+        String addformat = add.format(DateTimeFormatter.ofPattern("yyyy-MM"));
+        System.out.println(String.format("%s及其之前月份费用已结算，该变更仅对%s及其之后的费用生效，确认是否提交？","2019-02",addformat));
+    }
+
+    @Test
+    public void jdbc(){
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://47.101.155.4:3306/omg","root","123456");
+            Statement statement = connection.createStatement();
+            ResultSet resultSet = statement.executeQuery("select * from user");
+            while (resultSet.next()){
+                int anInt = resultSet.getInt(1);
+                String string = resultSet.getString(2);
+                System.out.println(anInt+"name:"+string);
+            }
+            int row = resultSet.getRow();
+            System.out.println(row);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
