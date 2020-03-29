@@ -1,5 +1,7 @@
 package com.omg.controller;
 
+import com.alibaba.nacos.api.config.annotation.NacosValue;
+import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
 import com.omg.annotation.CurrentUser;
 import com.omg.annotation.LogInterface;
 import com.omg.domain.result.Result;
@@ -24,6 +26,10 @@ import java.io.IOException;
 @Validated
 @Api(tags = "用户相关接口")
 public class UserController extends BaseController{
+
+    @NacosValue(value = "${omg.appkey:123}",autoRefreshed = true)
+    private String appKey;
+
     @Autowired
     private UserService userService;
 
@@ -31,6 +37,7 @@ public class UserController extends BaseController{
     @GetMapping("/select/user/{name}")
     public Result<User> getUser(@PathVariable String name){
         logger.debug("用户名：{}",name);
+        logger.debug("appKey：{}",appKey);
         return userService.findByName(name);
     }
 
