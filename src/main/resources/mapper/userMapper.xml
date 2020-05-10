@@ -26,4 +26,13 @@
             #{item.id}
         </foreach>
     </update>
+
+    <resultMap id="typeHandlerMap" type="com.omg.dto.TestUserDTO">
+        <id column="id" jdbcType="BIGINT" property="id" />
+        <result column="name" jdbcType="VARCHAR" property="names"
+                typeHandler="com.omg.config.typeHandler.UserNameTypeHandler"/>
+    </resultMap>
+    <select id="findNames" resultMap="typeHandlerMap">
+        select * from user where id = 4
+    </select>
 </mapper>

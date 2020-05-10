@@ -1,6 +1,7 @@
 package com.omg.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.eventbus.Subscribe;
 import com.omg.domain.exception.BaseException;
 import com.omg.domain.result.Result;
 import com.omg.domain.result.SuccessResult;
@@ -9,6 +10,7 @@ import com.omg.entity.User;
 import com.omg.enumerate.ErrorEnum;
 import com.omg.enumerate.UserType;
 import com.omg.mapper.UserMapper;
+import com.omg.service.StubFactory;
 import com.omg.service.UserService;
 import com.omg.util.AttachUtil;
 import com.omg.util.ExcelUtils;
@@ -51,7 +53,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Description:
  */
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, StubFactory {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
 
@@ -209,5 +211,10 @@ public class UserServiceImpl implements UserService {
         user.setName("波波");
         user.setAge(25);
         userMapper.insert(user);
+    }
+
+    @Override
+    public String create(String mes) {
+        return null;
     }
 }

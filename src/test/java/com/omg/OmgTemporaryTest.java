@@ -1,15 +1,22 @@
 package com.omg;
 
 import com.google.common.collect.Lists;
+import com.omg.dto.TestUserDTO;
 import com.omg.entity.User;
+import com.omg.jms.producer.MyProducer;
+import com.omg.mapper.UserMapper;
 import com.omg.mytest.concurrent.LazySimple1;
 import com.omg.mytest.concurrent.LazySimple2;
 import com.omg.service.StubFactory;
 import com.omg.util.CommonUtil;
+import com.omg.util.PdfUtil;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Method;
@@ -19,6 +26,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicReference;
@@ -35,6 +43,11 @@ import java.util.stream.Collectors;
 @SpringBootTest
 public class OmgTemporaryTest {
 
+    @Autowired
+    MyProducer myProducer;
+
+    @Autowired
+    UserMapper userMapper;
     @Test
     public void try11(){
         Set<String> keySet=new HashSet<>();
@@ -57,7 +70,13 @@ public class OmgTemporaryTest {
 
     @Test
     public void completableFuture(){
-
+        LocalDate now = LocalDate.now();
+        LocalDate yesterday = now.minusMonths(1);
+        System.out.println(yesterday.toString());
+        LocalDateTime yesterdayBegin = yesterday.atTime(0,0,0);
+        LocalDateTime yesterdayBegin1 = yesterday.atTime(23,59,59);
+        System.out.println(yesterdayBegin);
+        System.out.println(yesterdayBegin1);
     }
 
     @Test
@@ -245,5 +264,31 @@ public class OmgTemporaryTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void ex(){
+        String ts = "{\"data\":\"{\"condType\":1,\"condValue\":\"286181\"}\",\"format\":\"json\",\"timestamp\":\"2020-03-31 10:31:21\"}";
+        String s = StringEscapeUtils.unescapeJava(ts);
+        System.out.println(s);
+
+        String s1 = LocalDateTime.now().toString();
+        System.out.println(s1);
+        int sec =3 ;
+        int i = sec & 0x1FFF;
+        System.out.println(i);
+        myProducer.send();
+    }
+
+    @Test
+    public void longToS(){
+        Long l = 1000l;
+        System.out.println(l.toString());
+    }
+
+    @Test
+    public void typeHandler(){
+        TestUserDTO byName = userMapper.findNames();
+        System.out.println(byName);
     }
 }

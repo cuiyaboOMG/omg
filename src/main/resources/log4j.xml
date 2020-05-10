@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+
+	<appender class="org.apache.log4j.ConsoleAppender" name="stdout">
+		<layout class="org.apache.log4j.PatternLayout">
+			<param value="%d{yyyy-MM-dd HH:mm:ss} [%p]-[%t]-[%X{PtxId}]-[%l] %m%n"
+				   name="ConversionPattern"/>
+		</layout>
+	</appender>
+
+	<appender name="infoLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/omg/info.log"/>
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy-MM-dd HH:mm:ss} [%p]-[%t]-[%X{PtxId}]-[%l] %m%n"/>
+		</layout>
+		<!--过滤器设置输出的级别-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="info"/>
+			<param name="levelMax" value="info"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+	<appender name="warnLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/omg/warn.log"/>
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy-MM-dd HH:mm:ss} [%p]-[%t]-[%X{PtxId}]-[%l] %m%n"/>
+		</layout>
+		<!--过滤器设置输出的级别-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="warn"/>
+			<param name="levelMax" value="warn"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+	<appender name="errorLog" class="org.apache.log4j.DailyRollingFileAppender">
+		<param name="File" value="/logs/omg/error.log"/>
+		<param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern"
+				   value="%d{yyyy-MM-dd HH:mm:ss} [%p]-[%t]-[%X{PtxId}]-[%l] %m%n"/>
+		</layout>
+		<!--过滤器设置输出的级别-->
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="error"/>
+			<param name="levelMax" value="error"/>
+			<param name="AcceptOnMatch" value="true"/>
+		</filter>
+	</appender>
+
+	<logger name="org">
+		<level value="info"/>
+	</logger>
+	<logger name="com">
+		<level value="info"/>
+	</logger>
+	<logger name="druid.sql">
+		<level value="debug"/>
+	</logger>
+
+	<root>
+		<level value="info"/>
+		<appender-ref ref="stdout"/>
+		<appender-ref ref="infoLog"/>
+		<appender-ref ref="warnLog"/>
+		<appender-ref ref="errorLog"/>
+	</root>
+</log4j:configuration>
