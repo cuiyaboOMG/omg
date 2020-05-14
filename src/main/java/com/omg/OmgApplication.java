@@ -22,8 +22,6 @@ public class OmgApplication implements CommandLineRunner {
 	}
 
 	@Autowired
-	private  UserMapper userMapper;
-	@Autowired
 	UserServiceImpl userService;
 	@Override
 	public void run(String... args) throws Exception {
