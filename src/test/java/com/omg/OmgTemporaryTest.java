@@ -29,6 +29,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.regex.Matcher;
@@ -290,5 +291,7 @@ public class OmgTemporaryTest {
     public void typeHandler(){
         TestUserDTO byName = userMapper.findNames();
         System.out.println(byName);
+        int expireMsecs = (int) TimeUnit.MINUTES.toMillis(1l);
+        System.out.println(expireMsecs);
     }
 }
