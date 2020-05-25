@@ -2,8 +2,10 @@ package com.omg;
 
 import com.google.common.collect.Lists;
 import com.omg.dto.TestUserDTO;
+import com.omg.entity.Fee;
 import com.omg.entity.User;
 import com.omg.jms.producer.MyProducer;
+import com.omg.mapper.FeeMapper;
 import com.omg.mapper.UserMapper;
 import com.omg.mytest.concurrent.LazySimple1;
 import com.omg.mytest.concurrent.LazySimple2;
@@ -49,6 +51,9 @@ public class OmgTemporaryTest {
 
     @Autowired
     UserMapper userMapper;
+
+    @Autowired
+    FeeMapper feeMapper;
     @Test
     public void try11(){
         Set<String> keySet=new HashSet<>();
@@ -293,5 +298,14 @@ public class OmgTemporaryTest {
         System.out.println(byName);
         int expireMsecs = (int) TimeUnit.MINUTES.toMillis(1l);
         System.out.println(expireMsecs);
+    }
+
+    //mybatis 拦截器实现分表插入
+    @Test
+    public void mybatisInterceptor(){
+        Fee record = new Fee();
+        record.setFeeAmt(BigDecimal.TEN);
+        record.setFeeDate(new Date());
+       feeMapper.selectByPrimaryKey(1l);
     }
 }
