@@ -1,5 +1,6 @@
 package com.omg;
 
+import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.omg.dto.TestUserDTO;
 import com.omg.entity.Fee;
@@ -17,11 +18,15 @@ import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -31,6 +36,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.concurrent.atomic.LongAdder;
@@ -181,7 +187,7 @@ public class OmgTemporaryTest {
 
     @Test
     public void spi(){
-        Class<StubFactory> stubFactoryClass = StubFactory.class;
+        /*Class<StubFactory> stubFactoryClass = StubFactory.class;
         Class<?>[] interfaces = stubFactoryClass.getInterfaces();
         for (Class c:interfaces) {
             Method create = null;
@@ -191,7 +197,7 @@ public class OmgTemporaryTest {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }
+        }*/
         ServiceLoader<StubFactory> load = ServiceLoader.load(StubFactory.class);
         for (StubFactory s:load) {
             System.out.println(s.create("222"));
@@ -306,6 +312,47 @@ public class OmgTemporaryTest {
         Fee record = new Fee();
         record.setFeeAmt(BigDecimal.TEN);
         record.setFeeDate(new Date());
-       feeMapper.selectByPrimaryKey(1l);
+        Fee fee = feeMapper.selectByPrimaryKey(1l);
+        System.out.println(JSON.toJSONString(fee));
+        Fee fee1 = feeMapper.selectByPrimaryKey(1l);
+    }
+
+    @Test
+    public void testSpring() throws NoSuchFieldException, IllegalAccessException {
+        Class<DefaultSingletonBeanRegistry> aClass = DefaultSingletonBeanRegistry.class;
+        Field mapField = aClass.getDeclaredField("earlySingletonObjects");
+        mapField.setAccessible(true);
+        Object o = mapField.get("2323");
+        System.out.println(o.toString());
+        Type mapMainType = mapField.getGenericType();
+        // 为了确保安全转换，使用instanceof
+        if (mapMainType instanceof ParameterizedType) {
+            // 执行强制类型转换
+            ParameterizedType parameterizedType = (ParameterizedType)mapMainType;
+            // 获取基本类型信息，即Map
+            Type basicType = parameterizedType.getRawType();
+            System.out.println("基本类型为："+basicType);
+            // 获取泛型类型的泛型参数
+            Type[] types = parameterizedType.getActualTypeArguments();
+            for (int i = 0; i < types.length; i++) {
+                System.out.println("第"+(i+1)+"个泛型类型是："+types[i]);
+            }
+        } else {
+            System.out.println("获取泛型类型出错!");
+        }
+    }
+
+    @Test
+    public void retainAll() throws ClassNotFoundException {
+        ConcurrentHashMap<String, Integer> hashMap = new ConcurrentHashMap<>(16);
+        hashMap.put("xxx",1);
+        hashMap.put("xxx1",2);
+
+        Class<User> userClass = User.class;
+        Class<?> name = Class.forName("com.omg.entity.User");
+        User user = new User();
+        Class<? extends User> aClass = user.getClass();
+        Field[] declaredFields = aClass.getDeclaredFields();
+
     }
 }

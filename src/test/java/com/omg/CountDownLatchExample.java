@@ -10,7 +10,7 @@ public class CountDownLatchExample {
 
     private static volatile AtomicInteger count = new AtomicInteger(0);
     private static CountDownLatch begin = new CountDownLatch(1);
-    private static CountDownLatch countDownLatch = new CountDownLatch(1000);
+    private static CountDownLatch countDownLatch = new CountDownLatch(10);
 
     public static void main(String[] args) throws InterruptedException {
 

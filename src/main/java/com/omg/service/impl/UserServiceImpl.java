@@ -52,7 +52,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @Date: 2018-09-02 12:20
  * @Description:
  */
-@Service
+@Service("userService")
 public class UserServiceImpl implements UserService, StubFactory {
 
     private Logger logger = LoggerFactory.getLogger(getClass());
@@ -196,21 +196,24 @@ public class UserServiceImpl implements UserService, StubFactory {
         user.setAge(26);
         user.setName("芸歌");
         userMapper.insert(user);
-        SpringContextHolder.getBean(UserServiceImpl.class).b();
-        int i=1/0;
+        try {
+            SpringContextHolder.getBean(UserServiceImpl.class).b();
+        }catch (Exception e){
+
+        }
         return "success";
     }
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void b() {
         c();
     }
 
     public void c(){
         User user = new User();
-        user.setName("波波");
+        user.setName("波波1");
         user.setAge(25);
         userMapper.insert(user);
+        int i = 1/0;
     }
 
     @Override

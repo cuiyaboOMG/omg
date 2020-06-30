@@ -19,7 +19,7 @@ import java.util.Map;
 * @Author:         cyb
 * @CreateDate:     2018/11/28 13:37
 */
-@Service
+@Service("base1")
 public class BaseService {
 
     @Autowired

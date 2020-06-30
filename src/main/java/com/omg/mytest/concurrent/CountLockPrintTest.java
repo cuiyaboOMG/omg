@@ -29,7 +29,7 @@ public abstract class CountLockPrintTest {
                     if (count % 2 == 0) {
                         condition.await();
                     } else {
-                        System.out.println("A" + count);
+                        System.out.println("线程A：" + count);
                         count++;
                         condition.signal();
                     }
