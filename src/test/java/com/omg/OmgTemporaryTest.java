@@ -8,11 +8,8 @@ import com.omg.entity.User;
 import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.FeeMapper;
 import com.omg.mapper.UserMapper;
-import com.omg.mytest.concurrent.LazySimple1;
-import com.omg.mytest.concurrent.LazySimple2;
 import com.omg.service.StubFactory;
 import com.omg.util.CommonUtil;
-import com.omg.util.PdfUtil;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
@@ -20,11 +17,9 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.support.DefaultSingletonBeanRegistry;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
@@ -234,16 +229,6 @@ public class OmgTemporaryTest {
             result.add(s1);
         }
         return org.apache.commons.lang.StringUtils.join(result, " ");
-    }
-
-    @Test
-    public void testSigln(){
-        Thread thread1 = new Thread(new LazySimple1());
-        Thread thread2 = new Thread(new LazySimple2());
-        thread1.start();
-        thread2.start();
-        System.out.println("thread:"+thread1.getName());
-        System.out.println("thread:"+thread2.getName());
     }
 
     @Test
