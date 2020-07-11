@@ -72,8 +72,8 @@ public class UserServiceImpl implements UserService, StubFactory {
     private static volatile Map<Integer, Long> cache =  new ConcurrentHashMap<Integer, Long>();
 
     public void init () {
-        List<User> users = userMapper.selectAll();
-        System.out.println("初始化成功"+users.size());
+        /*List<User> users = userMapper.selectAll();
+        System.out.println("初始化成功"+users.size());*/
         cache.put(1,1l);
     }
 

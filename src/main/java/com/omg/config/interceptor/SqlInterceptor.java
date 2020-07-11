@@ -32,10 +32,10 @@ public class SqlInterceptor implements Interceptor{
         final Object[] args = invocation.getArgs();
         MappedStatement mappedStatement = (MappedStatement)args[0];
         SqlCommandType sqlCommandType = mappedStatement.getSqlCommandType();
-        boolean isTarget = properties.getProperty("target").contains(mappedStatement.getResource());
+        /*boolean isTarget = properties.getProperty("target").contains(mappedStatement.getResource());
         if(!isTarget){
             return invocation.proceed();
-        }
+        }*/
         if(sqlCommandType == SqlCommandType.SELECT){
             Object paramterObject = args[1];
             BoundSql boundSql = mappedStatement.getBoundSql(paramterObject);

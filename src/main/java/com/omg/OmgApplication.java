@@ -15,7 +15,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableScheduling
 @MapperScan(basePackages = "com.omg.mapper")
 @EnableConfigurationProperties
-@NacosPropertySource(dataId = "omg",autoRefreshed = true)
+//@NacosPropertySource(dataId = "omg",autoRefreshed = true)
 public class OmgApplication implements CommandLineRunner {
 	public static void main(String[] args) {
 		SpringApplication.run(OmgApplication.class, args);
