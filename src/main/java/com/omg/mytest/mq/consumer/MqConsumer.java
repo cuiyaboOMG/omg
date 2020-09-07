@@ -1,6 +1,5 @@
 package com.omg.mytest.mq.consumer;
 
-import com.alibaba.fastjson.JSON;
 import com.rabbitmq.client.Channel;
 import org.springframework.amqp.core.ExchangeTypes;
 import org.springframework.amqp.core.Message;
@@ -23,8 +22,11 @@ public class MqConsumer {
             value = @Queue(value = "omg.test.queue", durable = "true"),
             exchange = @Exchange(value = "omg.test.exchange", durable = "true", type = ExchangeTypes.TOPIC),
             key = "omg.test.mq"))
-    public void c1(Message message,Channel channel) throws IOException {
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+    public void c1(Message message,Channel channel) throws IOException, InterruptedException {
         System.out.println("收到消息"+new String(message.getBody()));
+        int i =1/0;
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+        System.out.println("ACK消息");
+        //   TimeUnit.SECONDS.sleep(10L);
     }
 }

@@ -1,6 +1,7 @@
 package com.omg.mytest.arithmetic;
 
 /**
+ * 单向链表反转
  * @Auther: cui
  * @Date: 2019-08-24 11:04
  * @Description:
@@ -27,6 +28,14 @@ public class Node {
         public void setNext(Node1 next) {
             this.next = next;
         }
+
+        @Override
+        public String toString() {
+            return "Node1{" +
+                    "value=" + value +
+                    ", next=" + next +
+                    '}';
+        }
     }
 
     private Node1 reverse(Node1 node){
@@ -51,6 +60,6 @@ public class Node {
         node2.setNext(node3);
         Node node = new Node();
         Node1 reverse = node.reverse(node1);
-        System.out.println(reverse.getValue());
+        System.out.println(reverse);
     }
 }

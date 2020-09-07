@@ -55,6 +55,7 @@ public class SendMqService implements RabbitTemplate.ConfirmCallback, RabbitTemp
         if (ack) {
             System.out.println("消息发送成功:" + correlationData);
         } else {
+            //消息投递失败，消息满了？各种场景对应不同的处理
             System.out.println("消息发送失败:" + s);
         }
     }

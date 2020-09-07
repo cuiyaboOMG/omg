@@ -1,5 +1,7 @@
 package com.omg;
 
+import com.omg.util.IDGeneratorByRedis;
+import com.omg.util.OrderNoUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,5 +105,14 @@ public class RedisTest {
         Jedis jedis=new Jedis("cluster227.uat1.rs.com",6380);
         //     jedis.auth("1q2w3e");
         System.out.println("connect is OK============>"+jedis.ping());
+    }
+
+
+    @Test
+    public void createId(){
+        for(int i =0;i<8194;i++){
+            System.out.println(OrderNoUtil.getNo("S"));
+        }
+
     }
 }

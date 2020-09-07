@@ -3,8 +3,10 @@ package com.omg;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
 import com.omg.dto.TestUserDTO;
+import com.omg.dto.UserDto;
 import com.omg.entity.Fee;
 import com.omg.entity.User;
+import com.omg.enumerate.UserType;
 import com.omg.jms.producer.MyProducer;
 import com.omg.mapper.FeeMapper;
 import com.omg.mapper.UserMapper;
@@ -27,9 +29,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
@@ -238,10 +242,13 @@ public class OmgTemporaryTest {
         chars[0]+= 32;
         System.out.println(String.valueOf(chars));
 
-        LocalDate localDate = LocalDate.parse("2019-02-01");
-        LocalDate add = localDate.plusMonths(1l);
+        LocalDate localDate = LocalDate.parse("20200711",DateTimeFormatter.ofPattern("yyyyMMdd"));
+       /* LocalDate add = localDate.plusMonths(1l);
         String addformat = add.format(DateTimeFormatter.ofPattern("yyyy-MM"));
-        System.out.println(String.format("%s及其之前月份费用已结算，该变更仅对%s及其之后的费用生效，确认是否提交？","2019-02",addformat));
+        System.out.println(String.format("%s及其之前月份费用已结算，该变更仅对%s及其之后的费用生效，确认是否提交？","2019-02",addformat));*/
+        System.out.println(localDate);
+
+
     }
 
     @Test
@@ -281,6 +288,17 @@ public class OmgTemporaryTest {
     public void longToS(){
         Long l = 1000l;
         System.out.println(l.toString());
+        DateTimeFormatter dtf2 = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        LocalDateTime now = LocalDateTime.now().minusHours(1);
+        String format = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:00:00"));
+        System.out.println(format);
+        LocalDateTime parse = LocalDateTime.parse("2020-07-22 16:00:00", DateTimeFormatter.ofPattern("yyyy-MM-dd HH:00:00"));
+        System.out.println(parse);
+
+        LocalDate monthOfLastDate=LocalDate.parse("2020-05-01",
+                DateTimeFormatter.ofPattern("yyyy-MM-dd")).with(TemporalAdjusters.lastDayOfMonth());
+        System.out.println(monthOfLastDate);
     }
 
     @Test
@@ -333,11 +351,90 @@ public class OmgTemporaryTest {
         hashMap.put("xxx",1);
         hashMap.put("xxx1",2);
 
+        HashMap<String,Integer> map = new HashMap<>();
+        map.put(null,1);
         Class<User> userClass = User.class;
         Class<?> name = Class.forName("com.omg.entity.User");
         User user = new User();
         Class<? extends User> aClass = user.getClass();
-        Field[] declaredFields = aClass.getDeclaredFields();
+    }
 
+    @Test
+    public void lunXun(){
+        int i = 0;
+        int [] a = new int[]{1,2};
+        int[] arr = {10,9,8,7,6,5,4,3,2,1,0};
+        int index = 0;
+        for (; i < 15; i++) {
+            int nextIndex = (index+1) % arr.length;
+            System.out.println("取模运算："+nextIndex);
+            index = nextIndex;
+            System.out.println(arr[index]);
+        }
+    }
+
+    @Autowired
+    private Map<String,StubFactory> map;
+
+    @Test
+    public void getIoc(){
+        System.out.println(map.size());
+    }
+
+    @Test
+    public void getOne(){
+        Integer[] arr = {10,9,1,7,6,5,4,3,2,1,0};
+        List<Integer> list = Lists.newArrayList();
+        int a = 0;
+        for(int i =0;i<arr.length;i++){
+            if(arr[i] != 1 ){
+                list.add(arr[i]);
+            }else {
+                a++;
+            }
+        }
+        for(int j=0;j<a;j++){
+            list.add(1);
+        }
+
+        System.out.println(list.toString());
+    }
+
+    static HashMap<String, Integer > hashMap=new HashMap<String,Integer>();
+
+    //给定一个非空的字符串，判断它是否可以由它的一个子串重复多次构成。给定的字符串只含有小写英文字母，并且长度不超过10000。
+    @Test
+    public void zhongfu(){
+        String s = "abcabc";
+        //"abcabcabcabc";
+        int i = (s + s).indexOf(s, 1);
+        boolean b = i != s.length();
+        System.out.println(b);
+    }
+
+    @Test
+    public void groupBy(){
+        List<UserDto> list = Lists.newArrayList();
+        UserDto userDto = new UserDto();
+        userDto.setDate(LocalDate.now());
+        userDto.setName("张毅");
+        userDto.setType(UserType.student);
+        UserDto userDto1 = new UserDto();
+        userDto1.setDate(LocalDate.now());
+        userDto1.setName("张毅");
+
+        UserDto userDto2 = new UserDto();
+        userDto2.setDate(LocalDate.now().minusYears(1));
+        userDto2.setName("张毅2");
+
+        list.add(userDto);
+        list.add(userDto1);
+        list.add(userDto2);
+        Map<String, List<UserDto>> collect = list.stream().collect(Collectors.groupingBy(l -> getYearMonth(l.getDate(),l.getName())));
+        System.out.println(collect);
+    }
+
+    private static String getYearMonth(LocalDate localDate,String name) {
+        return localDate.format(DateTimeFormatter.ofPattern("yyyy-MM"))+name;
     }
 }

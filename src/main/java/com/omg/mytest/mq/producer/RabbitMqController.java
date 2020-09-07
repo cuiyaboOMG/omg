@@ -17,7 +17,7 @@ public class RabbitMqController {
 
     @GetMapping("testMQ")
     public String testMq(){
-        sendMqService.send("omg.test.exchange","omg.test.mq1","hello");
+        sendMqService.send("omg.test.exchange","omg.test.mq","hello");
         return "";
     }
 }
