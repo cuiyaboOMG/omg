@@ -411,30 +411,10 @@ public class OmgTemporaryTest {
         boolean b = i != s.length();
         System.out.println(b);
     }
-
+    
     @Test
-    public void groupBy(){
-        List<UserDto> list = Lists.newArrayList();
-        UserDto userDto = new UserDto();
-        userDto.setDate(LocalDate.now());
-        userDto.setName("张毅");
-        userDto.setType(UserType.student);
-        UserDto userDto1 = new UserDto();
-        userDto1.setDate(LocalDate.now());
-        userDto1.setName("张毅");
-
-        UserDto userDto2 = new UserDto();
-        userDto2.setDate(LocalDate.now().minusYears(1));
-        userDto2.setName("张毅2");
-
-        list.add(userDto);
-        list.add(userDto1);
-        list.add(userDto2);
-        Map<String, List<UserDto>> collect = list.stream().collect(Collectors.groupingBy(l -> getYearMonth(l.getDate(),l.getName())));
-        System.out.println(collect);
-    }
-
-    private static String getYearMonth(LocalDate localDate,String name) {
-        return localDate.format(DateTimeFormatter.ofPattern("yyyy-MM"))+name;
+    public void string(){
+        String format = String.format("(%s件,%s件]", 1, 3);
+        System.out.println(format);
     }
 }
