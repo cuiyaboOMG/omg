@@ -21,7 +21,9 @@ public class SwaggerConfig {
 
     @Value("${swagger.enabled:true}")
     private boolean enabledSwagger;
-
+/*
+    @Value("#{'${kingdee.webservice.url}'.concat('/ormrpc/services/WSGLWebServiceFacade')}")
+*/
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)

@@ -10,6 +10,7 @@ import com.omg.entity.User;
 import com.omg.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -33,7 +34,6 @@ public class UserController extends BaseController{
     @Autowired
     private UserService userService;
 
-    @LogInterface(value = "查询%s的信息")
     @GetMapping("/select/user/{name}")
     public Result<User> getUser(@PathVariable String name){
         logger.debug("用户名：{}",name);
@@ -43,6 +43,7 @@ public class UserController extends BaseController{
 
     @GetMapping("/select/user1")
     public String getUser1(){
+        ((UserController) AopContext.currentProxy()).saveLog();
         return "test";
     }
 
@@ -85,5 +86,10 @@ public class UserController extends BaseController{
     @PostMapping("/upload")
     public void uipload(@RequestParam("file") MultipartFile file){
         userService.upload(file);
+    }
+
+    @LogInterface(value = "查询的信息")
+    public void saveLog(){
+        System.out.println("测试切面保存日志");
     }
 }
