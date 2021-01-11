@@ -2,6 +2,7 @@ package com.omg.controller;
 
 import com.alibaba.nacos.api.config.annotation.NacosValue;
 import com.alibaba.nacos.spring.context.annotation.config.NacosPropertySource;
+import com.omg.annotation.CacheThreadArg;
 import com.omg.annotation.CurrentUser;
 import com.omg.annotation.LogInterface;
 import com.omg.domain.result.Result;
@@ -22,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Validated
@@ -35,9 +37,11 @@ public class UserController extends BaseController{
     private UserService userService;
 
     @GetMapping("/select/user/{name}")
-    public Result<User> getUser(@PathVariable String name){
+    @CacheThreadArg(prefix = "query:user:",argKey = {"#name"}, timeout = 3L,reminder = "请勿重复提交")
+    public Result<User> getUser(@PathVariable String name) throws InterruptedException {
         logger.debug("用户名：{}",name);
         logger.debug("appKey：{}",appKey);
+        //TimeUnit.SECONDS.sleep(4);
         return userService.findByName(name);
     }
 
