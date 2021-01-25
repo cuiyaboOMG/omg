@@ -18,15 +18,25 @@ import java.io.IOException;
 @Component
 public class MqConsumer {
 
-    @RabbitListener(bindings = @QueueBinding(
-            value = @Queue(value = "omg.test.queue", durable = "true"),
-            exchange = @Exchange(value = "omg.test.exchange", durable = "true", type = ExchangeTypes.TOPIC),
-            key = "omg.test.mq"))
+    /*@RabbitListener(bindings = @QueueBinding(
+            value = @Queue(value = "omg.test.queue.fan", durable = "true"),
+            exchange = @Exchange(value = "omg.test.exchange.fan", durable = "true", type = ExchangeTypes.FANOUT)))
     public void c1(Message message,Channel channel) throws IOException, InterruptedException {
         System.out.println("收到消息"+new String(message.getBody()));
-        int i =1/0;
-        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
+     //   channel.basicNack(message.getMessageProperties().getDeliveryTag(), false,false);
         System.out.println("ACK消息");
-        //   TimeUnit.SECONDS.sleep(10L);
+    }*/
+
+    /*@RabbitListener(queues = "dead.letter.demo.simple.business.queuea")
+    public void c1(Message message,Channel channel) throws IOException, InterruptedException {
+        System.out.println("收到业务消息a"+new String(message.getBody()));
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+    }*/
+
+    //死信消息消费者   1.被拒绝  2.超时  3.队列满了
+    @RabbitListener(queues = "dead.letter.demo.simple.deadletter.queuea")
+    public void c12(Message message,Channel channel) throws IOException, InterruptedException {
+        System.out.println("延迟死信消息"+new String(message.getBody()));
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
     }
 }
