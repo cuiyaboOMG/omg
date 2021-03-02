@@ -37,6 +37,8 @@ public class IDGeneratorByRedis {
     private String uuid = UUID.randomUUID().toString().replace("-", "");
     private AtomicInteger errNum = new AtomicInteger(0);
 
+    private long timestamp;
+
     private ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor(r -> {
         Thread t = new Thread(r);
         t.setName("id-generator-schedule-thread");
@@ -145,7 +147,16 @@ public class IDGeneratorByRedis {
             throw new IllegalStateException("IDGeneratorByRedis 初始化暂未完成,请稍后再试!");
         }
         int sec = getSeque();
-        String timeCode = DateFormatUtils.format(new Date(), yy_MM_DD_HH_mm_ss_SSS);
+        Date date = new Date();
+        long now = date.getTime();
+        //防止时间回溯
+        if (now > this.timestamp) {
+            this.timestamp = now;
+        } else if (now < this.timestamp) {
+            logger.error("Clock is moving backwards. Rejecting requests until {}.", this.timestamp);
+            throw new RuntimeException(String.format("Clock moved backwards. Refusing to create for %d milliseconds", this.timestamp - now));
+        }
+        String timeCode = DateFormatUtils.format(date, yy_MM_DD_HH_mm_ss_SSS);
         return head + timeCode + addZeroBefore(workerId, 3) + addZeroBefore(sec, 4);
     }
 
@@ -174,6 +185,7 @@ public class IDGeneratorByRedis {
         }
         this.redisTemplate = redisTemplate;
         this.redisPrefix = this.redisPrefix + redisPrefix;
+        this.timestamp = System.currentTimeMillis();
     }
 
     /**
