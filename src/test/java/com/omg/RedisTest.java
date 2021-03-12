@@ -1,5 +1,6 @@
 package com.omg;
 
+import com.google.common.collect.Lists;
 import com.omg.util.IDGeneratorByRedis;
 import com.omg.util.OrderNoUtil;
 import org.junit.Test;
@@ -11,7 +12,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import redis.clients.jedis.Client;
 import redis.clients.jedis.Jedis;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -114,5 +117,23 @@ public class RedisTest {
             System.out.println(OrderNoUtil.getNo("S"));
         }
 
+    }
+
+    @Test
+    public void luck(){
+        ArrayList<Object> objects = Lists.newArrayList();
+        for(int i =0;i<=5;i++){
+            Random random = new Random();
+            int a = random.nextInt(33) + 1;
+            if(objects.contains(a)){
+                continue;
+            }
+            objects.add(a);
+            System.out.println(a);
+            if(objects.size()>=6)break;
+        }
+        Random random = new Random();
+        int a = random.nextInt(16) + 1;
+        System.out.println(a);
     }
 }

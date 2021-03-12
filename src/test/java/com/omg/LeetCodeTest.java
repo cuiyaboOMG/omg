@@ -1,5 +1,6 @@
 package com.omg;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -54,4 +55,28 @@ public class LeetCodeTest {
         System.out.println(temp);
         System.out.println(i);
     }
+
+    /**
+     * 字符串ABCD，可以由字符串BCDA或者CDAB通过循环移位而得到。请编程实现以下检测：
+     * 字符串S1是否可以由字符串S2通 过循环移位而得到
+     */
+    @Test
+    public void two(){
+        String a = "AABB";
+        String b = "ABBA";
+        System.out.println("是否："+checkExist(a,b));
+    }
+
+    private Boolean checkExist(String a,String b){
+        if(a.length()!=b.length()){
+            return false;
+        }
+        if(a.equals(b)){
+            return true;
+        }
+        String c = b+b;
+        return c.contains(a);
+
+    }
+
 }
